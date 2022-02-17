@@ -1,0 +1,53 @@
+interface Node {
+  id: ID!
+}
+
+type CoronaData {
+  cases_time_series: CoronaConnection
+}
+
+type CoronaConnection {
+  edges: [CoronaEdge]
+  pageInfo: PageInfo!
+}
+type Tada {
+  dailyconfirmed: String
+  dailyrecovered: String
+}
+
+type CoronaEdge {
+  cursor: String!
+  node: Tada  
+}
+
+
+# type Tada {
+#   dailyconfirmed: String
+#   dailyrecovered: String
+# }
+
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# type CoronaData {
+#   cases_time_series: [Tada]
+# }
+
+
+type Query {
+  corona: CoronaConnection
+  # node(id: ID!): Node
+}
+
+# type Query {
+#   corona: CoronaData
+# }
+
+# type CoronaData {
+#   cases_time_series: [Tada]
+# }

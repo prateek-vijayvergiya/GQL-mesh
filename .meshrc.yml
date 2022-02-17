@@ -1,0 +1,14 @@
+serve:
+  port: 5000
+  browser: true
+  playground: true
+sources:
+  - name: Countries
+    handler:
+      graphql:
+        endpoint: https://countries.trevorblades.com
+additionalTypeDefs: ./src/types.graphql
+additionalResolvers:
+  - ./src/additional-resolvers.js
+documents:
+  - example.graphql

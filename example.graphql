@@ -1,0 +1,9 @@
+query {
+  covidData {
+    cases_time_series {
+      dailyconfirmed
+      dailyrecovered
+      totaldeceased
+    }
+  }
+}
