@@ -9,7 +9,7 @@ const resolvers = {
       const result = await axios.get('https://data.covid19india.org/data.json')
       console.log("hell")
       console.log('---------------------result------------------',result.data)
-      const data = connectionFromArray(result.data.cases_time_series, connectionArgs)
+      const data = connectionFromArray(result.data, connectionArgs)
       console.log('------------------------data----------------------------', data)
       return data
     }

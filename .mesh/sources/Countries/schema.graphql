@@ -2,17 +2,15 @@ schema {
   query: Query
 }
 
-directive @key(fields: String!) on OBJECT | INTERFACE
+directive @key(selectionSet: String!) on OBJECT
 
-directive @extends on OBJECT | INTERFACE
+directive @computed(selectionSet: String!) on FIELD_DEFINITION
 
-directive @external on OBJECT | FIELD_DEFINITION
+directive @merge(argsExpr: String, keyArg: String, keyField: String, key: [String!], additionalArgs: String) on FIELD_DEFINITION
 
-directive @requires(fields: String!) on FIELD_DEFINITION
+directive @canonical on OBJECT | INTERFACE | INPUT_OBJECT | UNION | ENUM | SCALAR | FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
-directive @provides(fields: String!) on FIELD_DEFINITION
-
-type Country {
+type Country @key(selectionSet: "{ code }") {
   code: ID!
   name: String!
   native: String!
@@ -26,13 +24,13 @@ type Country {
   states: [State!]!
 }
 
-type Continent {
+type Continent @key(selectionSet: "{ code }") {
   code: ID!
   name: String!
   countries: [Country!]!
 }
 
-type Language {
+type Language @key(selectionSet: "{ code }") {
   code: ID!
   name: String
   native: String
@@ -69,23 +67,15 @@ input LanguageFilterInput {
 }
 
 type Query {
-  _entities(representations: [_Any!]!): [_Entity]!
-  _service: _Service!
   countries(filter: CountryFilterInput): [Country!]!
   country(code: ID!): Country
   continents(filter: ContinentFilterInput): [Continent!]!
   continent(code: ID!): Continent
   languages(filter: LanguageFilterInput): [Language!]!
   language(code: ID!): Language
+  _entities(representations: [_Any!]!): [_Entity]! @merge
 }
-
-union _Entity = Country | Continent | Language
 
 scalar _Any
 
-type _Service {
-  """
-  The sdl representing the federated service capabilities. Includes federation directives, removes federation types, and includes rest of full schema after schema directives have been applied
-  """
-  sdl: String
-}
+union _Entity = Country | Continent | Language

@@ -7,6 +7,12 @@ sources:
     handler:
       graphql:
         endpoint: https://countries.trevorblades.com
+  - name: OBS
+    handler:
+      graphql:
+        endpoint: http://10.240.118.8:5005/graphql
+        operationHeaders:
+          Authorization: Bearer {context.headers['my-api-token']}
 additionalTypeDefs: ./src/types.graphql
 additionalResolvers:
   - ./src/additional-resolvers.js
