@@ -1,0 +1,305 @@
+schema {
+  query: Query
+}
+
+type Query {
+  """
+  Returns a list of [answers](https://api.stackexchange.com/docs/types/answer).
+  
+  Equivalent to GET /answers
+  """
+  answersResponse(
+    """Unix epoch time """
+    fromdate: Int
+    """Unix epoch time """
+    max: Int
+    """Unix epoch time """
+    min: Int
+    order: Order
+    page: Int
+    pagesize: Int
+    """
+    This parameter can be the full domain name (ie. "stackoverflow.com"), or a short form identified by api_site_parameter on the site object.
+    """
+    site: String
+    """
+    `activity` corresponds to `Answer. last_activity_date` , `creation` to `Answer.creation_date` and `votes` to `Answer.score`
+    """
+    sort: Sort4
+    """Unix epoch time """
+    todate: Int
+  ): AnswersResponse
+  """
+  Returns the user associated with the passed access_token.
+  
+  This method returns a [user](https://api.stackexchange.com/docs/types/user).
+  
+  Equivalent to GET /me
+  """
+  getMe(site: String): UsersResponse
+  """
+  Returns the reputation changed for the user associated with the given access_token.
+  This method returns a list of [reputation changes](https://api.stackexchange.com/docs/types/reputation).
+  
+  Equivalent to GET /me/reputation
+  """
+  getMyReputation: ReputationResponse
+  """
+  Returns user's public reputation history.
+  
+  This method returns a list of [reputation_history](https://api.stackexchange.com/docs/types/reputation-history).
+  
+  Equivalent to GET /me/reputation-history
+  """
+  getMyReputationHistory(page: Int, pagesize: Int): ReputationHistoryResponse
+  """
+  Gets all the questions on the site.
+  This method allows you make fairly flexible queries across the entire corpus of questions on a site.
+  
+  Equivalent to GET /questions/featured
+  """
+  listFeaturedQuestions(fromdate: Int, max: Int, min: Int, order: Order, page: Int, pagesize: Int, site: String, sort: Sort2, tagged: String, todate: Int): QuestionsResponse
+  """
+  Returns questions which have received no answers.
+  Compare with /questions/unanswered which merely returns questions that the sites consider insufficiently well answered.
+  
+  Equivalent to GET /questions/no-answers
+  """
+  listQuestionsWithoutAnswers(fromdate: Int, max: Int, min: Int, order: Order, page: Int, pagesize: Int, site: String, sort: Sort2, tagged: String, todate: Int): QuestionsResponse
+  """
+  Gets all the questions on the site.
+  This method allows you make fairly flexible queries across the entire corpus of questions on a site.
+  
+  Equivalent to GET /questions/unanswered
+  """
+  listUnansweredQuestions(fromdate: Int, max: Int, min: Int, order: Order, page: Int, pagesize: Int, site: String, sort: Sort2, tagged: String, todate: Int): QuestionsResponse
+  """
+  Gets all the questions on the site.
+  This method allows you make fairly flexible queries across the entire corpus of questions on a site.
+  
+  Equivalent to GET /questions
+  """
+  questionsResponse(fromdate: Int, max: Int, min: Int, order: Order, page: Int, pagesize: Int, site: String, sort: Sort, tagged: String, todate: Int): QuestionsResponse
+  """
+  Returns users' public reputation history.
+  This method returns a list of reputation_history.
+  
+  Equivalent to GET /users/{userIds}/reputation-history
+  """
+  reputationHistoryResponse(page: Int, pagesize: Int, site: String, userIds: String!): ReputationHistoryResponse
+  """
+  Gets a subset of the reputation changes for users in {ids}.
+  Reputation changes are intentionally scrubbed of some data to make it difficult to correlate votes on particular posts with user reputation changes. That being said, this method returns enough data for reasonable display of reputation trends.
+  {ids} can contain up to 100 semicolon delimited ids. To find ids programmatically look for user_id on user or shallow_user objects.
+  This method returns a list of reputation objects.
+  
+  Equivalent to GET /users/{userIds}/reputation
+  """
+  reputationResponse(fromdate: Int, page: Int, pagesize: Int, site: String, todate: Int, userIds: String!): ReputationResponse
+  """
+  Returns all users on a site.
+  
+  This method returns a list of users.
+  
+  The sorts accepted by this method operate on the following fields of the user object:
+  
+  reputation – reputation
+  creation – creation_date
+  name – display_name
+  modified – last_modified_date
+  
+  reputation is the default sort.
+  
+  It is possible to create moderately complex queries using sort, min, max, fromdate, and todate.
+  The `inname` parameter lets consumers filter the results down to just those users with a certain substring in their display name. For example, `inname=kevin` will return all users with both users named simply "Kevin" or those with Kevin as one of (or part of) their names; such as "Kevin Montrose".
+  
+  Equivalent to GET /users
+  """
+  usersResponse(fromdate: Int, inname: String, max: Int, min: Int, order: Order, page: Int, pagesize: Int, site: String, sort: Sort3, todate: Int): UsersResponse
+}
+
+type AnswersResponse {
+  backoff: Int
+  hasMore: Boolean
+  items: [Answer]
+  quotaMax: Int
+  quotaRemaining: Int
+}
+
+type Answer {
+  accepted: Boolean
+  answerId: Int
+  awardedBountyAmount: Int
+  awardedBountyUsers: [ShallowUser]
+  body: String
+  bodyMarkdown: String
+  canFlag: Boolean
+  commentCount: Int
+  comments: [Comment]
+  communityOwnedDate: Int
+  contentLicense: String
+  creationDate: Int
+  downVoteCount: Int
+  isAccepted: Boolean
+  lastActivityDate: Int
+  lastEditDate: Int
+  lastEditor: ShallowUser
+  link: String
+  lockedDate: Int
+  owner: ShallowUser
+  questionId: Int
+  score: Boolean
+  shareLink: Int
+  tags: [String]
+  title: String
+  upVoteCount: Int
+  upvoted: Boolean
+}
+
+type ShallowUser {
+  id: String
+}
+
+type Comment {
+  id: String
+}
+
+enum Order {
+  DESC
+  ASC
+}
+
+enum Sort4 {
+  ACTIVITY
+  CREATION
+  VOTES
+}
+
+type UsersResponse {
+  hasMore: Boolean
+  items: [User]
+  quotaRemaining: Int
+  quoteMax: Int
+}
+
+type User {
+  acceptRate: Int
+  accountId: Float
+  badgeCounts: UserBadgeCounts
+  creationDate: Float
+  displayName: String
+  isEmployee: Boolean
+  lastAccessDate: Float
+  lastModifiedDate: Float
+  link: String
+  location: String
+  profileImage: String
+  reputation: Float
+  reputationChangeDay: Int
+  reputationChangeMonth: Int
+  reputationChangeQuarter: Int
+  reputationChangeWeek: Int
+  reputationChangeYear: Int
+  userId: Float
+  userType: String
+  websiteUrl: String
+}
+
+type UserBadgeCounts {
+  bronze: Int
+  gold: Int
+  silver: Int
+}
+
+type ReputationResponse {
+  hasMore: Boolean
+  """A list of reputation_history."""
+  items: [ReputationChange]
+  quotaMax: Int
+  quotaRemaining: Int
+}
+
+type ReputationChange {
+  onDate: Int
+  postId: Int
+  postType: String
+  reputationChange: Int
+  userId: Int
+  voteType: VoteType
+}
+
+enum VoteType {
+  ACCEPTS
+  BOUNTIES_WON
+  DOWN_VOTES
+  UP_VOTES
+}
+
+type ReputationHistoryResponse {
+  hasMore: Boolean
+  """A list of reputation_history."""
+  items: [ReputationHistory]
+  quotaMax: Int
+  quotaRemaining: Int
+}
+
+type ReputationHistory {
+  creationDate: Int
+  postId: Int
+  reputationChange: Int
+  reputationHistoryType: String
+  userId: Int
+}
+
+type QuestionsResponse {
+  hasMore: Boolean
+  """A list of questions."""
+  items: [Question]
+  quotaMax: Int
+  quotaRemaining: Int
+}
+
+type Question {
+  answerCount: Int
+  creationDate: Int
+  isAnswered: Boolean
+  lastActivityDate: Int
+  link: String
+  owner: QuestionOwner
+  questionId: Int
+  score: Int
+  tags: [String]
+  title: String
+  viewCount: Int
+}
+
+type QuestionOwner {
+  displayName: String
+  link: String
+  profileImage: String
+  reputation: Int
+  userId: Int
+  userType: String
+}
+
+enum Sort2 {
+  ACTIVITY
+  VOTES
+  CREATION
+}
+
+enum Sort {
+  ACTIVITY
+  VOTES
+  CREATION
+  HOT
+  WEEK
+  MONTH
+}
+
+enum Sort3 {
+  REPUTATION
+  CREATION
+  NAME
+  MODIFIED
+}

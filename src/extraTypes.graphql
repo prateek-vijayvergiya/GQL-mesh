@@ -1,0 +1,32 @@
+type People {
+  id: Int
+  title: String
+  body: String
+}
+
+type PeopleConnection {
+  edges: [PeopleEdge]
+  pageInfo: PageInfo!
+}
+
+type PeopleEdge {
+  cursor: String!
+  node: People
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  People(
+    first: Int
+    after: String
+    last: Int
+    before: String
+    id: String
+  ): PeopleConnection
+}

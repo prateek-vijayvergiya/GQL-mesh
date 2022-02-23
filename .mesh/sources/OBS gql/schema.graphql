@@ -4,380 +4,6 @@ schema {
   subscription: RootSubscription
 }
 
-"""Fields sortable for fed ObjectStores"""
-enum FedObjectStoreSortableField {
-  objectScaleId
-  creationTimestamp
-  initialized
-  uid
-  objectStoreId
-  k8sNamespace
-  objectStoreName
-  apiVersion
-  version
-  status
-  deleted
-}
-
-"""Fields sortable for account field"""
-enum AccountSortableField {
-  objectscale
-  createDate
-  encryptionEnabled
-  complianceEnabled
-  alias
-  description
-  accountID
-}
-
-"""A connection to a list of items."""
-type RemoteInstanceConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-    """The field name for the summation"""
-    values: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [RemoteInstanceEdge]
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"""An edge in a connection"""
-type AccountEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: Account
-}
-
-"""Field matcher to select events based for event rule"""
-input MatchOnInput {
-  """The operator that should be used in the match"""
-  operator: String
-  """Field value for rule matcher"""
-  field: String
-  """Label value for rule matcher"""
-  label: String
-  """Value that should be matched on"""
-  value: String
-}
-
-"""Entity Types which can attached to a Policy"""
-enum PolicyEntityType {
-  """Policy is Associated to a Role"""
-  Role
-  """Policy is Associated to a Group"""
-  Group
-  """Policy is Associated to a User"""
-  User
-}
-
-input ObjectStoreBulkActionInput {
-  """Namespaces and names of object-stores upon which to perform operation"""
-  namespacedNames: [NamespacedNameInput]
-}
-
-"""An edge in a connection"""
-type NotifierEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: Notifier
-}
-
-"""Type of Kubernetes service"""
-enum ServiceServiceType {
-  LoadBalancer
-  ClusterIP
-  NodePort
-}
-
-"""The input required to delete a Tenant's quota."""
-input DeleteTenantQuotaInput {
-  objectStore: NamespacedNameInput
-  accountID: String
-}
-
-"""An edge in a connection"""
-type ClusterNodeEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: ClusterNode
-}
-
-"""A service provider info type"""
-type ServiceProvider {
-  create_time: String
-  dns: String
-  java_keystore: String
-  key_alias: String
-  key_password: String
-  unique_id: String
-  uuid: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input ObjectStoreTemplateSort {
-  """Direction to sort the connection"""
-  direction: SortDirection
-  """Name of field on which to sort the connection"""
-  field: ObjectStoreTemplateSortableField
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input LicenseSort {
-  """Name of field on which to sort the connection"""
-  field: LicenseSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""An edge in a connection"""
-type AttachedPolicyEntityEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: AttachedPolicyEntity
-}
-
-"""Storage topology details for resource"""
-input StorageTopologyInput {
-  """The topology spread and fault domain key"""
-  faultDomainKey: String
-  """The disallowed fault domains for resource scheduling"""
-  excludedFaultDomains: [String]
-  """
-  List of node hostnames (kubernetes.io/hostname label) to be excluded from resource scheduling
-  """
-  excludedNodes: [String]
-}
-
-"""A kubernetes resource"""
-type KubernetesResourceNodeType implements Node {
-  creationTimestamp: String
-  id: ID!
-  kind: String
-  name: String
-  namespace: String
-  """
-  Service readiness as a permille (a percentage with a base of 1000 instead of 100)
-  """
-  readiness: Int
-  size: Quantity
-  sizeResource: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input PersistentVolumeClaimSort {
-  """Name of field on which to sort the connection"""
-  field: PersistentVolumeClaimSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-enum IssueClearTypes {
-  Manual
-  Auto
-}
-
-"""The node selector where resources should be targed for scheduling"""
-type NodeSelectionInputType {
-  """The key of node labels to determine selection"""
-  key: String
-  """The source of node labels to determine selection"""
-  source: String
-  """The value of node labels to determine selection"""
-  value: String
-}
-
-"""FeatureV2"""
-type FeatureV2 {
-  """The date when the license expires"""
-  endDate: String
-  """The date the license can be renewed after expiring"""
-  gracePeriod: String
-  """Name of the licensed feature"""
-  name: String
-  """Product line from the License"""
-  productLine: String
-  """Quantity available for this feature"""
-  quantity: Int
-  """The date from when the license will be valid"""
-  startDate: String
-  """License type of this feature"""
-  type: String
-  """Unit of measurement code for this feature"""
-  uomCode: String
-  """Unit of measurement name for this feature"""
-  uomName: String
-  """Current usage amount used by this feature"""
-  usage: Int
-}
-
-"""Fields sortable for attached policy field"""
-enum AttachedPolicySortableField {
-  policyArn
-  policyName
-}
-
-input DeleteIAMGroupPolicyInput {
-  """The name of the policy document"""
-  policyName: String!
-  """The account where resource created"""
-  accountID: String!
-  """The name of the group to delete"""
-  groupName: String!
-}
-
-"""A connection to a list of items."""
-type PersistentVolumeConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The field name for the summation"""
-    values: [String]
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [PersistentVolumeEdge]
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"""A connection to a list of items."""
-type KubernetesResourcesConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-    """The field name for the summation"""
-    values: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [KubernetesResourcesEdge]
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"""
-The replication configuration filter for the replication configuration rule
-"""
-type ReplicationFilterType {
-  prefix: String
-  tag: [ReplicationTagType]
-}
-
-"""Hosts signed by a certificate"""
-type CertificateHosts {
-  """DNS names that are signed with this certificate"""
-  dns: [String]
-  """IP addresses that are signed with this certificate"""
-  ip: [String]
-}
-
-"""IAM user used to manage object stores"""
-type User implements Node {
-  """Return a list of Access Keys"""
-  accessKeys(createDate: FilterDateTimeArgument, status: FilterStringArgument, userName: FilterStringArgument, lastUsedDate: FilterDateTimeArgument, sort: AccessKeySort, before: String, last: Int, offset: Int, after: String, first: Int): AccessKeyConnection
-  """Amazon Resource Name of the user"""
-  arn: String
-  """Return a list of Policies attached to a resource"""
-  attachedPolicies(last: Int, policyArn: FilterStringArgument, policyName: FilterStringArgument, offset: Int, sort: AttachedPolicySort, before: String, after: String, first: Int): AttachedPolicyConnection
-  """Date on which this user was created"""
-  createDate: DateTime
-  """Return a list of group for a user"""
-  groups(
-    before: String
-    first: Int
-    """The path to the group"""
-    path: FilterStringArgument
-    """
-    The date and time, in ISO 8601 date-time format, when the group was created
-    """
-    createDate: FilterDateTimeArgument
-    """The stable and unique string identifying the group"""
-    groupID: FilterStringArgument
-    """The friendly name that identifies the group"""
-    groupName: FilterStringArgument
-    offset: Int
-    sort: IAMGroupSort
-    after: String
-    last: Int
-    """The Amazon Resource Name (ARN) specifying the group"""
-    arn: FilterStringArgument
-  ): IAMListGroupForUserConnection
-  """The ID of an object"""
-  id: ID!
-  """Return a list of inline policies"""
-  inlinePolicies(last: Int, policyName: FilterStringArgument, policyDocument: FilterStringArgument, offset: Int, sort: InlinePolicySort, before: String, after: String, first: Int): IAMInlinePolicyConnection
-  """The last time a user performed a login or credential gated AWS action"""
-  passwordLastUsed: String
-  """The path to the user"""
-  path: String
-  """
-  The ARN of the policy used to set the permissions boundary for the user
-  """
-  permissionsBoundary: PermissionBoundary
-  """A list of tags that are associated with the specified user"""
-  tags: [Tag]
-  """The stable and unique string identifying the user"""
-  userID: String
-  """The friendly name identifying the user"""
-  userName: String
-}
-
-input IAMCreateAccountInput {
-  """Boolean value indicates if compliance is enabled for this account"""
-  complianceEnabled: Boolean
-  """A longer text description of this account"""
-  description: String
-  """A root user for this account"""
-  accountRootUser: String
-  """Root password used for this account"""
-  accountRootPassword: String
-  """Confirmed root password used for this account"""
-  accountRootConfirmPassword: String
-  """A simple name used for this account"""
-  alias: String!
-  """Deprecated in favor of new alias field"""
-  Alias: String
-  """Boolean value indicates if encryption is enabled for this account"""
-  encryptionEnabled: Boolean
-}
-
-input NamespacedNameInput {
-  """Name of the object"""
-  name: String!
-  """Namespace of the object"""
-  namespace: String!
-}
-
-"""A kubernetes event rule"""
-input EventRuleInputType {
-  """event rule description"""
-  description: String
-  """list of criteria to select events"""
-  matchon: [MatchOnInput]
-  """list of notifiers to provide what apps notify"""
-  notifiers: [String]
-}
-
 """An ECS object storage cluster instance"""
 type ObjectStore implements Node {
   """Amount of storage ingested over a query window"""
@@ -574,24 +200,21 @@ type CertificateTemplateType {
   rootCA: String
 }
 
-input IAMUpdateGroupInput {
-  """The new path to update to"""
-  newPath: String
-  """The Account ID of the group to update"""
-  accountID: String!
-  """The group name to be updated"""
-  groupName: String!
-  """The updated group name when renaming the group"""
-  newGroupName: String
+input NamespacedNameInput {
+  """Name of the object"""
+  name: String!
+  """Namespace of the object"""
+  namespace: String!
 }
 
-input HealthCheckInputType {
-  """Checks to run for the application"""
-  checks: [InputCheckType]
-  """Name of the application"""
-  name: String!
-  """Namespace of the application"""
-  namespace: String!
+"""A kubernetes event rule"""
+input EventRuleInputType {
+  """event rule description"""
+  description: String
+  """list of criteria to select events"""
+  matchon: [MatchOnInput]
+  """list of notifiers to provide what apps notify"""
+  notifiers: [String]
 }
 
 """Fields sortable for bucket field"""
@@ -620,65 +243,34 @@ type EventConnection {
   pageInfo: PageInfo!
 }
 
-"""Kubernetes standard resources related to Dell EMC ObjectScale"""
-interface KubernetesResource {
-  """Size of the resource"""
-  size: Quantity
-  """Type of resource used in size field"""
-  sizeResource: String
-  """Kubernetes resource kind"""
-  kind: String
-  """Name of the resource"""
-  name: String
-  """Namespace the resources is within"""
-  namespace: String
-  """Datetime that the resource was created"""
-  creationTimestamp: String
-  """Number of replicas available"""
-  readiness: String
+input IAMUpdateGroupInput {
+  """The new path to update to"""
+  newPath: String
+  """The Account ID of the group to update"""
+  accountID: String!
+  """The group name to be updated"""
+  groupName: String!
+  """The updated group name when renaming the group"""
+  newGroupName: String
 }
 
-"""A single workload that may be part of an ObjectStore"""
-type workload {
-  """If data will be encrypted"""
-  encryption: Boolean
-  """Annual expected growth rate in percent for the store"""
-  growthRate: Int
-  """Object size for this workload"""
-  objectSize: Quantity
-  """Show how much capacity is needed"""
-  primaryCapacity: Quantity
-  """Read write ratio"""
-  readWriteRatio: Int
-  """How much concurrent transactions"""
-  transactions: Int
-  """Use case for the object store"""
-  useCase: UseCaseType
-}
-
-"""An edge in a connection"""
-type PolicyEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: Policy
-}
-
-input ObjectStoreUpgradeInput {
-  """The target upgrade version to be upgraded"""
-  version: String
-  """Namespaces and names of object-stores upon which to perform operation"""
-  namespacedNames: [NamespacedNameInput]
+input HealthCheckInputType {
+  """Namespace of the application"""
+  namespace: String!
+  """Checks to run for the application"""
+  checks: [InputCheckType]
+  """Name of the application"""
+  name: String!
 }
 
 """Remove IAM user to specific IAM group"""
 input RemoveUserFromGroupInput {
+  """The account ID of the user"""
+  accountID: String!
   """The friendly name identifying the user"""
   userName: String!
   """The name of the group to remove"""
   groupName: String!
-  """The account ID of the user"""
-  accountID: String!
 }
 
 """An instance of a Helm Chart installed into a Kubernetes cluster"""
@@ -731,36 +323,55 @@ type ObjectStoreEdge {
   node: ObjectStore
 }
 
-"""Changes the sort order of nodes returned in a connection"""
-input AttachedPolicyEntitySort {
-  """Name of field on which to sort the connection"""
-  field: AttachedPolicyEntitySortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
+"""Kubernetes standard resources related to Dell EMC ObjectScale"""
+interface KubernetesResource {
+  """Size of the resource"""
+  size: Quantity
+  """Type of resource used in size field"""
+  sizeResource: String
+  """Kubernetes resource kind"""
+  kind: String
+  """Name of the resource"""
+  name: String
+  """Namespace the resources is within"""
+  namespace: String
+  """Datetime that the resource was created"""
+  creationTimestamp: String
+  """Number of replicas available"""
+  readiness: String
 }
 
-"""Copy permissions of user to new user"""
-input CopyPermissionsFromUserInput {
-  """The account ID of the user"""
-  accountID: String!
-  """The friendly name identifying the user"""
-  copyFromUserName: String!
-  """The Username from whome to copy permissions"""
-  copyToUserName: String!
+"""A single workload that may be part of an ObjectStore"""
+type workload {
+  """If data will be encrypted"""
+  encryption: Boolean
+  """Annual expected growth rate in percent for the store"""
+  growthRate: Int
+  """Object size for this workload"""
+  objectSize: Quantity
+  """Show how much capacity is needed"""
+  primaryCapacity: Quantity
+  """Read write ratio"""
+  readWriteRatio: Int
+  """How much concurrent transactions"""
+  transactions: Int
+  """Use case for the object store"""
+  useCase: UseCaseType
 }
 
-"""Names used to sign this certificate"""
-input CertificateNamesInput {
-  """Locality of origin (city, town, county, etc.) for certificate signer"""
-  locality: String
-  """Organization signing this certificate"""
-  organization: String
-  """Organization unit (department) signing this certificate"""
-  organizationalUnit: String
-  """Country of origin for certificate signer"""
-  country: String
-  """State or province of origin for certificate signer"""
-  state: String
+"""An edge in a connection"""
+type PolicyEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: Policy
+}
+
+input ObjectStoreUpgradeInput {
+  """The target upgrade version to be upgraded"""
+  version: String
+  """Namespaces and names of object-stores upon which to perform operation"""
+  namespacedNames: [NamespacedNameInput]
 }
 
 """A connection to a list of items."""
@@ -821,13 +432,36 @@ type IAMListGroupForUserEdge {
   node: IAMGroup
 }
 
-input DeleteIAMUserPolicyInput {
-  """The account where resource created"""
+"""Changes the sort order of nodes returned in a connection"""
+input AttachedPolicyEntitySort {
+  """Name of field on which to sort the connection"""
+  field: AttachedPolicyEntitySortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""Copy permissions of user to new user"""
+input CopyPermissionsFromUserInput {
+  """The account ID of the user"""
   accountID: String!
-  """The name of the user to delete"""
-  userName: String!
-  """The name of the policy document"""
-  policyName: String!
+  """The friendly name identifying the user"""
+  copyFromUserName: String!
+  """The Username from whome to copy permissions"""
+  copyToUserName: String!
+}
+
+"""Names used to sign this certificate"""
+input CertificateNamesInput {
+  """Organization signing this certificate"""
+  organization: String
+  """Organization unit (department) signing this certificate"""
+  organizationalUnit: String
+  """Country of origin for certificate signer"""
+  country: String
+  """State or province of origin for certificate signer"""
+  state: String
+  """Locality of origin (city, town, county, etc.) for certificate signer"""
+  locality: String
 }
 
 """An edge in a connection"""
@@ -844,17 +478,21 @@ input CreateAccountAccessKeyInput {
 }
 
 input IAMSetDefaultPolicyVersionInput {
-  """The accountID in plaintext"""
-  account: String!
   """The ARN related to the IAM Policy which should have the version set"""
   ARN: String!
   """The name of the version to set"""
   PolicyVersion: String!
+  """The accountID in plaintext"""
+  account: String!
 }
 
-input ObjectScaleNameInput {
-  """The name for ObjectScale system"""
-  objectScaleName: String
+input DeleteIAMUserPolicyInput {
+  """The account where resource created"""
+  accountID: String!
+  """The name of the user to delete"""
+  userName: String!
+  """The name of the policy document"""
+  policyName: String!
 }
 
 """Common configuration for Kubernetes workloads"""
@@ -951,6 +589,37 @@ type Policy implements Node {
   updateDate: DateTime
 }
 
+input ObjectScaleNameInput {
+  """The name for ObjectScale system"""
+  objectScaleName: String
+}
+
+"""Values of connection objects with optional groupings"""
+type Counts {
+  groups: [CountGroupings]
+  """Total number of edges in this connection"""
+  total: Int
+}
+
+"""Fields sortable for tenant field"""
+enum TenantSortableField {
+  tenantID
+  alias
+}
+
+input PutLegalHoldInput {
+  """The version ID of the object that you want to place a Legal Hold on."""
+  versionID: String
+  """The key name for the object that you want to place a Legal Hold on."""
+  key: String
+  """The status of the field. True = enabled."""
+  legalHold: Boolean
+  """The bucket relay ID to put the object lock onto."""
+  bucket: LegalHoldBucketConfiguration!
+  """A field of acknowledgement for paid requests. """
+  requestPayer: String!
+}
+
 """the detached user policy to a resource"""
 type DetachUserPolicyType {
   """Amazon Resource Name of the attached policy"""
@@ -970,50 +639,16 @@ input IAMUpdateRoleInput {
   newMaxSessionDuration: Int
 }
 
-"""Values of connection objects with optional groupings"""
-type Counts {
-  groups: [CountGroupings]
-  """Total number of edges in this connection"""
-  total: Int
-}
-
-"""Fields sortable for tenant field"""
-enum TenantSortableField {
-  tenantID
-  alias
-}
-
-input PutLegalHoldInput {
-  """The bucket relay ID to put the object lock onto."""
-  bucket: LegalHoldBucketConfiguration!
-  """A field of acknowledgement for paid requests. """
-  requestPayer: String!
-  """The version ID of the object that you want to place a Legal Hold on."""
-  versionID: String
-  """The key name for the object that you want to place a Legal Hold on."""
-  key: String
-  """The status of the field. True = enabled."""
-  legalHold: Boolean
-}
-
 """Changes the sort order of nodes returned in a connection"""
 input PolicySort {
-  """Direction to sort the connection"""
-  direction: SortDirection
   """Name of field on which to sort the connection"""
   field: PolicySortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
 """A notifier resource"""
 input NotifierInputType {
-  """GRPCConnTimeout"""
-  grpcConnTimeout: Int
-  """GRPCRetries"""
-  grpcRetries: Int
-  """TotalEventsDelivered"""
-  totalEventsDelivered: Int
-  """Available"""
-  available: Boolean
   """Hostname"""
   hostname: String
   """Namespace"""
@@ -1022,46 +657,26 @@ input NotifierInputType {
   name: String
   """Port"""
   port: Int
+  """GRPCConnTimeout"""
+  grpcConnTimeout: Int
+  """GRPCRetries"""
+  grpcRetries: Int
+  """TotalEventsDelivered"""
+  totalEventsDelivered: Int
+  """Available"""
+  available: Boolean
 }
 
 """IAM user used to manage object stores"""
 input UpdateUserInput {
-  """The new path to the user"""
-  newPath: String
-  """The new name for identifying the user"""
-  newUserName: String
   """The account ID of the user"""
   accountID: String!
   """The name identifying the user"""
   userName: String!
-}
-
-input IAMUpdateRolePolicyInput {
-  """The name of the role that you want to modify"""
-  roleName: String!
-  """The updated role policy document"""
-  assumeRolePolicyDocument: String!
-  """The account where resource will be updated"""
-  accountID: String!
-}
-
-input NotifierInput {
-  """Name of the notifier and namespace it resides in"""
-  namespacedName: NamespacedNameInput
-  """The config of the notifier"""
-  notifierConfig: NotifierInputType
-}
-
-"""Kubernetes Storage Class type for sizing input"""
-input StorageClassInput {
-  """Name of the Kubernetes storage class"""
-  name: String!
-  """
-  Indicates that the storage class provisions volumes local to a single host
-  """
-  hostLocal: Boolean!
-  """The pool type backing this storage class"""
-  poolType: String!
+  """The new path to the user"""
+  newPath: String
+  """The new name for identifying the user"""
+  newUserName: String
 }
 
 """
@@ -1088,10 +703,38 @@ type Service implements Node & KubernetesResource {
 
 """Changes the sort order of nodes returned in a connection"""
 input RoleSort {
-  """Name of field on which to sort the connection"""
-  field: RoleSortableField
   """Direction to sort the connection"""
   direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: RoleSortableField
+}
+
+input IAMUpdateRolePolicyInput {
+  """The account where resource will be updated"""
+  accountID: String!
+  """The name of the role that you want to modify"""
+  roleName: String!
+  """The updated role policy document"""
+  assumeRolePolicyDocument: String!
+}
+
+input NotifierInput {
+  """Name of the notifier and namespace it resides in"""
+  namespacedName: NamespacedNameInput
+  """The config of the notifier"""
+  notifierConfig: NotifierInputType
+}
+
+"""Kubernetes Storage Class type for sizing input"""
+input StorageClassInput {
+  """Name of the Kubernetes storage class"""
+  name: String!
+  """
+  Indicates that the storage class provisions volumes local to a single host
+  """
+  hostLocal: Boolean!
+  """The pool type backing this storage class"""
+  poolType: String!
 }
 
 """A kubernetes label"""
@@ -1218,19 +861,6 @@ input IAMCreateRoleInput {
   accountID: String!
 }
 
-"""A key value pair in which the key and value are both strings"""
-input StringMapInputType {
-  """Key used to select a Kubernetes resource"""
-  key: String
-  """Value used to select a Kubernetes resource"""
-  value: String
-}
-
-input FedSigningInput {
-  """The federation signing request (String)"""
-  fedSigningRequest: String
-}
-
 """Field sortable in the Helm chart type"""
 enum HelmChartSortableField {
   condition
@@ -1257,10 +887,42 @@ input IssueSort {
 
 """A single k8s node available for object store scheduling"""
 input ClusterNodesInputType {
-  """The cluster node name"""
-  name: String
   """The allocatable resources within the cluster node"""
   allocatable: SizingInputResourceInputType
+  """The cluster node name"""
+  name: String
+}
+
+"""A key value pair in which the key and value are both strings"""
+input StringMapInputType {
+  """Key used to select a Kubernetes resource"""
+  key: String
+  """Value used to select a Kubernetes resource"""
+  value: String
+}
+
+input FedSigningInput {
+  """The federation signing request (String)"""
+  fedSigningRequest: String
+}
+
+type FilterRuleType {
+  name: String
+  value: String
+}
+
+"""Type of log receiver"""
+enum LogReceiverType {
+  Syslog
+  Elasticsearch
+}
+
+type Webhook {
+  authToken: String
+  backupLimit: String
+  comment: String
+  endpoint: String
+  name: String
 }
 
 """A connection to a list of items."""
@@ -1288,37 +950,18 @@ type IAMGroupConnection {
 }
 
 input AttachIAMGroupPolicyInput {
-  """The name of the policy to attache to the user"""
-  policyArn: String!
   """The account id of the group"""
   accountID: String!
   """The name of the group to attach the policy"""
   groupName: String!
+  """The name of the policy to attache to the user"""
+  policyArn: String!
 }
 
 type RootSubscription {
   createObjectStore: ObjectStore
   upgradeObjectStores: [ObjectStore]
   upgradeRelease: HelmRelease
-}
-
-type FilterRuleType {
-  name: String
-  value: String
-}
-
-"""Type of log receiver"""
-enum LogReceiverType {
-  Syslog
-  Elasticsearch
-}
-
-type Webhook {
-  authToken: String
-  backupLimit: String
-  comment: String
-  endpoint: String
-  name: String
 }
 
 """An edge in a connection"""
@@ -1366,29 +1009,6 @@ type TrustedAnchorsConnection {
   pageInfo: PageInfo!
 }
 
-enum systemMode {
-  Upgrade
-  Normal
-  Maintenance
-  PreProduction
-}
-
-"""Object Store Template to help create a new object store"""
-type ObjectStoreTemplate implements Node {
-  """Geo connection for this object store template"""
-  geoConnection: NetworkConnectionTemplateType
-  """The ID of an object"""
-  id: ID!
-  """management connection for this object store template"""
-  managementConnection: NetworkConnectionTemplateType
-  """Object Store template name, must be unique"""
-  name: String
-  """s3 connection for this object store template"""
-  s3Connection: NetworkConnectionTemplateType
-  """Sizing Input to create the object store"""
-  sizingInput: SizingInput
-}
-
 type CountGroupings {
   """The field value used to categorize the group"""
   category: String
@@ -1420,6 +1040,29 @@ type PodAffinityTerm {
   Required affinity rules. Pod scheduling will remain pending until these can be fulfilled
   """
   requiredDuringSchedulingIgnoredDuringExecution: [AffinityTerm]
+}
+
+enum systemMode {
+  Upgrade
+  Normal
+  Maintenance
+  PreProduction
+}
+
+"""Object Store Template to help create a new object store"""
+type ObjectStoreTemplate implements Node {
+  """Geo connection for this object store template"""
+  geoConnection: NetworkConnectionTemplateType
+  """The ID of an object"""
+  id: ID!
+  """management connection for this object store template"""
+  managementConnection: NetworkConnectionTemplateType
+  """Object Store template name, must be unique"""
+  name: String
+  """s3 connection for this object store template"""
+  s3Connection: NetworkConnectionTemplateType
+  """Sizing Input to create the object store"""
+  sizingInput: SizingInput
 }
 
 """An edge in a connection"""
@@ -1465,10 +1108,10 @@ input StatefulSetSort {
 
 """Changes the sort order of nodes returned in a connection"""
 input AccountSort {
-  """Direction to sort the connection"""
-  direction: SortDirection
   """Name of field on which to sort the connection"""
   field: AccountSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
 input DetachUserPolicyInput {
@@ -1478,6 +1121,24 @@ input DetachUserPolicyInput {
   policyArn: String!
   """The account ID of the user"""
   accountID: String!
+}
+
+"""Fields sortable for helmRelease field"""
+enum HelmReleaseSortableField {
+  name
+}
+
+"""An ECS Internal DNS Endpoint"""
+type InternalDNSEndpoint {
+  internalDNSEndpoint: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input PersistentVolumeSort {
+  """Name of field on which to sort the connection"""
+  field: PersistentVolumeSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
 """An federation object store type"""
@@ -1505,30 +1166,12 @@ enum LogReceiverApplicationInputType {
   Elasticsearch
 }
 
-"""Fields sortable for helmRelease field"""
-enum HelmReleaseSortableField {
-  name
-}
-
-"""An ECS Internal DNS Endpoint"""
-type InternalDNSEndpoint {
-  internalDNSEndpoint: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input PersistentVolumeSort {
-  """Direction to sort the connection"""
-  direction: SortDirection
-  """Name of field on which to sort the connection"""
-  field: PersistentVolumeSortableField
-}
-
 """Changes the sort order of nodes returned in a connection"""
 input ObjectStoreSort {
-  """Name of field on which to sort the connection"""
-  field: ObjectStoreSortableField
   """Direction to sort the connection"""
   direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: ObjectStoreSortableField
 }
 
 """An edge in a connection"""
@@ -1539,21 +1182,12 @@ type UserEdge {
   node: User
 }
 
-input DECKSConfigInputType {
-  """DECKS version"""
-  version: String
-  """Test SRS Gateway"""
-  testSRSGateway: SRSTestGatewayInputType
-  """DECKS workload config"""
-  decksWorkloadConfig: WorkloadConfigInputType
-}
-
 """Filter connection based comparison with string or string list argument"""
 input FilterStringListArgument {
+  field: [String]
   operator: Operator
   value: String
   listValue: [String]
-  field: [String]
 }
 
 """Fields sortable for object user field"""
@@ -1568,44 +1202,13 @@ enum InlinePolicySortableField {
   policyDocument
 }
 
-"""Fields sortable for storage policy field"""
-enum StoragePoliciesSortable {
-  reconcileStatus
-  storagePolicyID
-  storagePolicyName
-  name
-  namespace
-}
-
-input PodAffinityTermInputType {
-  """
-  Required affinity rules. Pod scheduling will remain pending until these can be fulfilled
-  """
-  requiredDuringSchedulingIgnoredDuringExecution: [AffinityTermInputType]
-  """
-  Preferred affinity rules. Pod scheduling will occur even if these cannot be fulfilled
-  """
-  preferredDuringSchedulingIgnoredDuringExecution: [PodAffinityPreferredInputType]
-}
-
-input DetachRolePolicyInput {
-  """The name of the role"""
-  roleName: String!
-  """Amazon Resource Name of the attached policy for role"""
-  policyArn: String!
-  """The account ID of the role"""
-  accountID: String!
-}
-
-input PutIAMUserPolicyInput {
-  """The name of the policy document"""
-  policyName: String!
-  """The account where resource will be created"""
-  accountID: String!
-  """The name of the user to create"""
-  userName: String!
-  """The policy document in string format"""
-  policyDocument: String!
+input DECKSConfigInputType {
+  """DECKS version"""
+  version: String
+  """Test SRS Gateway"""
+  testSRSGateway: SRSTestGatewayInputType
+  """DECKS workload config"""
+  decksWorkloadConfig: WorkloadConfigInputType
 }
 
 """Affinity rules used to direct workloads within Kubernetes cluster"""
@@ -1639,25 +1242,52 @@ type NamespaceEdge {
   node: Namespace
 }
 
+"""Fields sortable for storage policy field"""
+enum StoragePoliciesSortable {
+  reconcileStatus
+  storagePolicyID
+  storagePolicyName
+  name
+  namespace
+}
+
+input PodAffinityTermInputType {
+  """
+  Required affinity rules. Pod scheduling will remain pending until these can be fulfilled
+  """
+  requiredDuringSchedulingIgnoredDuringExecution: [AffinityTermInputType]
+  """
+  Preferred affinity rules. Pod scheduling will occur even if these cannot be fulfilled
+  """
+  preferredDuringSchedulingIgnoredDuringExecution: [PodAffinityPreferredInputType]
+}
+
+input DetachRolePolicyInput {
+  """The name of the role"""
+  roleName: String!
+  """Amazon Resource Name of the attached policy for role"""
+  policyArn: String!
+  """The account ID of the role"""
+  accountID: String!
+}
+
+input PutIAMUserPolicyInput {
+  """The name of the user to create"""
+  userName: String!
+  """The policy document in string format"""
+  policyDocument: String!
+  """The name of the policy document"""
+  policyName: String!
+  """The account where resource will be created"""
+  accountID: String!
+}
+
 """An edge in a connection"""
 type PolicyVersionsEdge {
   """ cursor for use in pagination"""
   cursor: String!
   """The item at the end of the edge"""
   node: PolicyVersions
-}
-
-"""List of Application health check information"""
-type AppHealthInfo {
-  """Name of application to show health check information for"""
-  info: [HealthInfoOutput]
-}
-
-input IAMSAMLProviderUpdateInput {
-  """The ARN of the SAML provider"""
-  arn: String
-  """The SAML XML Document"""
-  document: String
 }
 
 """accessModeType defines all available access mode for graphql."""
@@ -1686,12 +1316,17 @@ input TenantInput {
   encryptionEnabled: Boolean!
 }
 
-"""
-Filter information for the selection of S3 objects encrypted with AWS KMS
-"""
-input SseKmsEncryptedObjectsInput {
-  """Not implemented. Specifies if replicas are encrypted"""
-  status: String
+"""List of Application health check information"""
+type AppHealthInfo {
+  """Name of application to show health check information for"""
+  info: [HealthInfoOutput]
+}
+
+input IAMSAMLProviderUpdateInput {
+  """The SAML XML Document"""
+  document: String
+  """The ARN of the SAML provider"""
+  arn: String
 }
 
 """Specifies the direction of the sort operation"""
@@ -1711,22 +1346,18 @@ type BucketEdge {
 }
 
 input DeleteWebhookConfigurationType {
-  """AccountID to use for the DCM mutation"""
-  accountID: String!
   """Webhook urn (must be full URN not simple name)"""
   urn: String!
+  """AccountID to use for the DCM mutation"""
+  accountID: String!
 }
 
-"""A Kubernetes user that has been authenticated to the API"""
-type AuthenticatedUser {
-  aad: String
-  ciphertext: String
-  encryptedKey: String
-  """The ID of an object"""
-  id: ID!
-  iv: String
-  protected: String
-  tag: String
+"""
+Filter information for the selection of S3 objects encrypted with AWS KMS
+"""
+input SseKmsEncryptedObjectsInput {
+  """Not implemented. Specifies if replicas are encrypted"""
+  status: String
 }
 
 input SizingInputResourceInputType {
@@ -1738,10 +1369,10 @@ input SizingInputResourceInputType {
 
 """Changes the sort order of nodes returned in a connection"""
 input StoragePoliciesSort {
-  """Name of field on which to sort the connection"""
-  field: StoragePoliciesSortable
   """Direction to sort the connection"""
   direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: StoragePoliciesSortable
 }
 
 """CSR for HTTPS endpoints"""
@@ -1758,38 +1389,16 @@ type CertificateSigningRequestTemplate {
   names: CertificateNamesTemplate
 }
 
-"""Common configuration for Kubernetes workloads"""
-input WorkloadConfigInputType {
-  """
-  Kubernetes workload resource settings to request or limit resources used on a node
-  """
-  resources: WorkloadConfigResourceType
-  """
-  A list of key value pairs used to select Kubernetes nodes for a workload
-  """
-  nodeSelector: [StringMapInputType]
-  """A list of key value pairs used to tolerate specific node taints"""
-  tolerations: [StringMapInputType]
-  """A key value pair used to tolerate """
-  affinity: AffinityInput
-}
-
-input ObjectLockConfigurationRule {
-  """Days for the default retention period."""
-  days: Int
-  """
-  Retention mode you want to apply to new objects placed in the specified bucket.
-  """
-  mode: String
-  """Years for the default retention period."""
-  years: Int
-}
-
-input EventRuleInput {
-  """Name and namespace of the application the eventRule belongs to"""
-  application: NamespacedNameInput!
-  """The eventRule to be created"""
-  eventRule: EventRuleInputType!
+"""A Kubernetes user that has been authenticated to the API"""
+type AuthenticatedUser {
+  aad: String
+  ciphertext: String
+  encryptedKey: String
+  """The ID of an object"""
+  id: ID!
+  iv: String
+  protected: String
+  tag: String
 }
 
 """Fields sortable for event field"""
@@ -1866,44 +1475,38 @@ type ObjectStoreTemplateConnection {
   pageInfo: PageInfo!
 }
 
-input PutIAMGroupPolicyInput {
-  """The name of the group to create"""
-  groupName: String!
-  """The policy document in string format"""
-  policyDocument: String!
-  """The name of the policy document"""
-  policyName: String!
-  """The account where resource will be created"""
-  accountID: String!
+"""Common configuration for Kubernetes workloads"""
+input WorkloadConfigInputType {
+  """A list of key value pairs used to tolerate specific node taints"""
+  tolerations: [StringMapInputType]
+  """A key value pair used to tolerate """
+  affinity: AffinityInput
+  """
+  Kubernetes workload resource settings to request or limit resources used on a node
+  """
+  resources: WorkloadConfigResourceType
+  """
+  A list of key value pairs used to select Kubernetes nodes for a workload
+  """
+  nodeSelector: [StringMapInputType]
 }
 
-input IAMSAMLProviderDeleteInput {
-  """The ARN of the SAML provider"""
-  arn: String
+input ObjectLockConfigurationRule {
+  """Days for the default retention period."""
+  days: Int
+  """
+  Retention mode you want to apply to new objects placed in the specified bucket.
+  """
+  mode: String
+  """Years for the default retention period."""
+  years: Int
 }
 
-"""ObjectStore component configuration specification"""
-input ObjectStoreComponentSpecInputType {
-  """
-  Number of replicas that should run for this component. This field is returned objectscale-sizer.
-  """
-  replicas: Int
-  """Connection details for the component service."""
-  networkConnection: NetworkConnectionInput
-  """
-  Storage capacity of the component volume. This field is returned objectscale-sizer.
-  """
-  volumeCapacity: String
-  """
-  Number of storage volumes to configure for this volume. This field only applies to the storage server component.
-  """
-  volumeCount: Int
-  """Storage class to use for this component."""
-  volumeStorageClassName: String
-  """
-  Indicates if the volumes provided for this component are considered highly-available without additional protection by the object-store. This field is returned objectscale-sizer.
-  """
-  highlyAvailableVolumes: Boolean
+input EventRuleInput {
+  """Name and namespace of the application the eventRule belongs to"""
+  application: NamespacedNameInput!
+  """The eventRule to be created"""
+  eventRule: EventRuleInputType!
 }
 
 """Kubernetes Persistent Volume"""
@@ -1948,6 +1551,46 @@ input PutIAMRolePolicyInput {
   accountID: String!
 }
 
+input PutIAMGroupPolicyInput {
+  """The name of the group to create"""
+  groupName: String!
+  """The policy document in string format"""
+  policyDocument: String!
+  """The name of the policy document"""
+  policyName: String!
+  """The account where resource will be created"""
+  accountID: String!
+}
+
+input IAMSAMLProviderDeleteInput {
+  """The ARN of the SAML provider"""
+  arn: String
+}
+
+"""ObjectStore component configuration specification"""
+input ObjectStoreComponentSpecInputType {
+  """
+  Number of replicas that should run for this component. This field is returned objectscale-sizer.
+  """
+  replicas: Int
+  """Connection details for the component service."""
+  networkConnection: NetworkConnectionInput
+  """
+  Storage capacity of the component volume. This field is returned objectscale-sizer.
+  """
+  volumeCapacity: String
+  """
+  Number of storage volumes to configure for this volume. This field only applies to the storage server component.
+  """
+  volumeCount: Int
+  """Storage class to use for this component."""
+  volumeStorageClassName: String
+  """
+  Indicates if the volumes provided for this component are considered highly-available without additional protection by the object-store. This field is returned objectscale-sizer.
+  """
+  highlyAvailableVolumes: Boolean
+}
+
 """A selector used to match Kubernetes resources by label"""
 input LabelSelectorTypeInputType {
   """List of label values to match pods"""
@@ -1966,45 +1609,14 @@ type PersistentVolumeClaimEdge {
 
 """An object user secret key"""
 input ObjectUserSecretKeyTypeInput {
+  """An Object user name"""
+  objectUserName: String!
   """A secret key"""
   objectUserSecretKey: String
   """
   The number of minutes in the future that the old secret key should expire
   """
   existingKeyExpiresInMinutes: Int
-  """An Object user name"""
-  objectUserName: String!
-}
-
-"""New configuration for ECS Flex manager log receiver"""
-input LogReceiverInputType {
-  """Network port of the log receiver endpoint"""
-  port: Int
-  """Network protocol of the log receiver endpoint"""
-  protocol: NetworkProtocolInputType
-  """Namespace and name of the log receiver"""
-  namespacedName: NamespacedNameInput
-  """Application type of the log receiver"""
-  type: LogReceiverApplicationInputType
-  """Storage capacity provisioned by the automatically created log receiver"""
-  storageCapacity: QuantityInput
-  """
-  Indicates if the manager service should create a syslog based log receiver
-  """
-  autoCreate: Boolean
-  """Storage class used by automatically created log receiver"""
-  storageClass: String
-  """Network hostname of the log receiver endpoint"""
-  hostname: String
-  """Workload configuration of a created log receiver"""
-  workloadConfig: WorkloadConfigInputType
-}
-
-input InputCheckType {
-  """arguments to pass to the health check container"""
-  args: [String]
-  """name of the specific health check to run"""
-  name: String
 }
 
 """An edge in a connection"""
@@ -2048,6 +1660,37 @@ type AttachedPolicyConnection {
   edges: [AttachedPolicyEdge]
   """Information to aid in pagination."""
   pageInfo: PageInfo!
+}
+
+"""New configuration for ECS Flex manager log receiver"""
+input LogReceiverInputType {
+  """Storage capacity provisioned by the automatically created log receiver"""
+  storageCapacity: QuantityInput
+  """
+  Indicates if the manager service should create a syslog based log receiver
+  """
+  autoCreate: Boolean
+  """Storage class used by automatically created log receiver"""
+  storageClass: String
+  """Network hostname of the log receiver endpoint"""
+  hostname: String
+  """Workload configuration of a created log receiver"""
+  workloadConfig: WorkloadConfigInputType
+  """Network port of the log receiver endpoint"""
+  port: Int
+  """Network protocol of the log receiver endpoint"""
+  protocol: NetworkProtocolInputType
+  """Namespace and name of the log receiver"""
+  namespacedName: NamespacedNameInput
+  """Application type of the log receiver"""
+  type: LogReceiverApplicationInputType
+}
+
+input InputCheckType {
+  """arguments to pass to the health check container"""
+  args: [String]
+  """name of the specific health check to run"""
+  name: String
 }
 
 """A connection to a list of items."""
@@ -2101,17 +1744,6 @@ input AttachedGroupUserSort {
   direction: SortDirection
 }
 
-input IAMSAMLProviderCreateInput {
-  """The account to attach the provider to."""
-  account: String
-  """The human-friendly name of the SAML provider"""
-  name: String
-  """The SAML XML Document"""
-  document: String
-  """A list of key-value tags associated with the SAML provider"""
-  tags: [TagInput]
-}
-
 """An object store tenant instance"""
 type Tenant implements Node {
   alias: String
@@ -2146,14 +1778,25 @@ enum IssueSortableField {
 }
 
 input BucketQuotaInput {
-  """Block size in GB"""
-  blockSize: Int
   """Notification  size in GB"""
   notificationSize: Int
   """Block size in counts"""
   blockCounts: Int
   """Notification size in counts"""
   notificationCounts: Int
+  """Block size in GB"""
+  blockSize: Int
+}
+
+input IAMSAMLProviderCreateInput {
+  """The human-friendly name of the SAML provider"""
+  name: String
+  """The SAML XML Document"""
+  document: String
+  """A list of key-value tags associated with the SAML provider"""
+  tags: [TagInput]
+  """The account to attach the provider to."""
+  account: String
 }
 
 """A connection to a list of items."""
@@ -2275,6 +1918,34 @@ input BucketReplicationInputType {
   token: String
 }
 
+"""Fields sortable for storage class field"""
+enum StoragePoolSortableField {
+  dataStoreURL
+  freeSpaceInMiB
+  compatibleStorageClasses
+  errorMessage
+  name
+  poolType
+  errorState
+  accessibleNodes
+  totalCapacityInMiB
+}
+
+"""An object lock configuration associated with a bucket."""
+type ObjectLockConfiguration {
+  configuration: ObjectLockRuleConfiguration
+  enabled: Boolean
+}
+
+"""Fields sortable for access key field"""
+enum AccessKeySortableField {
+  accessKeyID
+  createDate
+  status
+  userName
+  lastUsedDate
+}
+
 input IAMSAMLProviderTagInput {
   """The ARN of the SAML provider"""
   arn: String
@@ -2307,6 +1978,10 @@ input IAMCreatePolicyVersionInput {
 
 """A single rule contained within a given replication configuration"""
 input ReplicationRuleInputType {
+  """Information about the replication destination and its configurations"""
+  destination: DestinationInputType!
+  """Not implemented. Replicate existing source bucket objects"""
+  existingObjectReplication: ReplicationStatusInputType
   """Prefix that identifies objects to which the rule applies"""
   filter: RuleFilterInputType
   """A unique identifier for the rule. The maximum value is 255 characters"""
@@ -2323,46 +1998,6 @@ input ReplicationRuleInputType {
   Not implemented. Specifies if replicates delete markers (required with filters)
   """
   deleteMarkerReplication: DeleteMarkerReplicationInputType
-  """Information about the replication destination and its configurations"""
-  destination: DestinationInputType!
-  """Not implemented. Replicate existing source bucket objects"""
-  existingObjectReplication: ReplicationStatusInputType
-}
-
-"""Fields sortable for storage class field"""
-enum StoragePoolSortableField {
-  dataStoreURL
-  freeSpaceInMiB
-  compatibleStorageClasses
-  errorMessage
-  name
-  poolType
-  errorState
-  accessibleNodes
-  totalCapacityInMiB
-}
-
-"""An object lock configuration associated with a bucket."""
-type ObjectLockConfiguration {
-  configuration: ObjectLockRuleConfiguration
-  enabled: Boolean
-}
-
-"""Fields sortable for access key field"""
-enum AccessKeySortableField {
-  accessKeyID
-  createDate
-  status
-  userName
-  lastUsedDate
-}
-
-"""An object store tenant input"""
-input UpdateTenantInput {
-  defaultBucketBlockSize: Int
-  alias: String
-  objectStore: NamespacedNameInput
-  accountID: String
 }
 
 enum ConnectionAggregationFunction {
@@ -2384,6 +2019,60 @@ type RoleEdge {
   cursor: String!
   """The item at the end of the edge"""
   node: Role
+}
+
+"""An object store tenant input"""
+input UpdateTenantInput {
+  objectStore: NamespacedNameInput
+  accountID: String
+  defaultBucketBlockSize: Int
+  alias: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input HelmChartSort {
+  """Name of field on which to sort the connection"""
+  field: HelmChartSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""Network connection details for resource"""
+type NetworkConnection {
+  """Certificate for this connection"""
+  certificate: Certificate
+  """Certificate signing request in for this connection in PEM format"""
+  certificateSigningRequest: String
+  """Status of the certificate for this connection"""
+  certificateStatus: CertificateStatus
+  """Certificate signing type for this connection"""
+  certificateType: CertificateSigningType
+  """
+  Configure expiry notification to be sent this number of days before the certificate expires
+  """
+  expiryNotificationTime: Int
+  """List of hostnames applied to this connection"""
+  externalHostnames: [String]
+  """List of external IP addresses applied to this connection"""
+  externalIPAddresses: [String]
+  """The load balancer IP address of the connection"""
+  loadBalancerIP: String
+  """The node port address of the connection"""
+  nodePort: Int
+  """Kubernetes service type of the connection"""
+  serviceType: ServiceServiceType
+}
+
+"""A key value pair in which the key is a string and value is a quantity"""
+type StringQuantityMap {
+  """Key used to select a Kubernetes resource"""
+  key: String
+  """Numerical representation of the resource"""
+  numerical: Float
+  """Quantity of infrastructure resource"""
+  quantity: Quantity
+  """Unit of the numerical representation of the resource"""
+  unit: String
 }
 
 """A connection to a list of items."""
@@ -2448,52 +2137,6 @@ type PolicyConnection {
   pageInfo: PageInfo!
 }
 
-"""Changes the sort order of nodes returned in a connection"""
-input HelmChartSort {
-  """Name of field on which to sort the connection"""
-  field: HelmChartSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""Network connection details for resource"""
-type NetworkConnection {
-  """Certificate for this connection"""
-  certificate: Certificate
-  """Certificate signing request in for this connection in PEM format"""
-  certificateSigningRequest: String
-  """Status of the certificate for this connection"""
-  certificateStatus: CertificateStatus
-  """Certificate signing type for this connection"""
-  certificateType: CertificateSigningType
-  """
-  Configure expiry notification to be sent this number of days before the certificate expires
-  """
-  expiryNotificationTime: Int
-  """List of hostnames applied to this connection"""
-  externalHostnames: [String]
-  """List of external IP addresses applied to this connection"""
-  externalIPAddresses: [String]
-  """The load balancer IP address of the connection"""
-  loadBalancerIP: String
-  """The node port address of the connection"""
-  nodePort: Int
-  """Kubernetes service type of the connection"""
-  serviceType: ServiceServiceType
-}
-
-"""A key value pair in which the key is a string and value is a quantity"""
-type StringQuantityMap {
-  """Key used to select a Kubernetes resource"""
-  key: String
-  """Numerical representation of the resource"""
-  numerical: Float
-  """Quantity of infrastructure resource"""
-  quantity: Quantity
-  """Unit of the numerical representation of the resource"""
-  unit: String
-}
-
 """A connection to a list of items."""
 type StorageClassConnection {
   """Count and summarize for each defined grouping"""
@@ -2527,29 +2170,14 @@ type LicenseEdge {
 }
 
 input UpdateAccountAccessKeyInput {
-  """A unique identifier for this account access key"""
-  accessKeyId: String!
   """Status (Active or Inactive) of account access key"""
   status: String!
   """A unique identifier for this account"""
   accountID: String!
   """Deprecated in favor of new accountID field"""
   AccountId: String
-}
-
-"""An edge in a connection"""
-type AttachedGroupUsersEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: AttachedGroupUsers
-}
-
-input EventRuleDeleteInput {
-  """Name of the event rule and namespace it resides in"""
-  application: NamespacedNameInput!
-  """Identifier of the event rule to be deleted"""
-  eventRuleIdentifier: Int!
+  """A unique identifier for this account access key"""
+  accessKeyId: String!
 }
 
 """Overall health check information"""
@@ -2628,6 +2256,21 @@ type StoragePolicyConnection {
   pageInfo: PageInfo!
 }
 
+"""An edge in a connection"""
+type AttachedGroupUsersEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: AttachedGroupUsers
+}
+
+input EventRuleDeleteInput {
+  """Name of the event rule and namespace it resides in"""
+  application: NamespacedNameInput!
+  """Identifier of the event rule to be deleted"""
+  eventRuleIdentifier: Int!
+}
+
 type ConnectionAggregation {
   groups: [groups]
   """Total number of edges in this connection"""
@@ -2659,28 +2302,6 @@ input DeleteTenantInput {
 
 """ObjectStore configuration specification"""
 input ObjectStoreSpecInputType {
-  """InfluxDB component specification"""
-  influxDB: ObjectStoreComponentSpecInputType
-  """StorageManagement component specification"""
-  storageManagement: ObjectStoreComponentSpecInputType
-  """rep component specification"""
-  rep: ObjectStoreComponentSpecInputType
-  """ObjectStore Metering"""
-  objectStoreMetering: ObjectStoreComponentSpecInputType
-  """Resource component specification"""
-  resource: ObjectStoreComponentSpecInputType
-  """Telegraf component specification"""
-  telegraf: ObjectStoreComponentSpecInputType
-  """DEOSEvents component specification"""
-  deosEvents: ObjectStoreComponentSpecInputType
-  """Atlas component specification"""
-  atlas: ObjectStoreComponentSpecInputType
-  """S3 component specification"""
-  s3: ObjectStoreComponentSpecInputType
-  """GeoReceiver component specification"""
-  geoReceiver: ObjectStoreComponentSpecInputType
-  """StorageServerManager component specification"""
-  storageServerManager: ObjectStoreComponentSpecInputType
   """Bookkeeper component specification"""
   bookkeeperIndex: ObjectStoreComponentSpecInputType
   """Grafana component specification"""
@@ -2731,36 +2352,28 @@ input ObjectStoreSpecInputType {
   nds: ObjectStoreComponentSpecInputType
   """SpaceReclaimer component specification"""
   spaceReclaimer: ObjectStoreComponentSpecInputType
-}
-
-"""An amount of consumable node resource: storage, CPU, memory, etc."""
-input QuantityInput {
-  """The amount of on the quantity as a number"""
-  value: Float
-  """The measurement unit of the quantity: Ki, Mi, milli-cores, etc."""
-  unit: String
-}
-
-"""An edge in a connection"""
-type IAMSAMLProviderEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: IAMSAMLProvider
-}
-
-"""An object representing a cloudIQ instance."""
-input SupportAssistCloudIQInput {
-  """The frequency of the capacity report in minutes (5-300)"""
-  capacityFrequency: Int
-  """The frequency of the health report in minutes (5-300)"""
-  healthFrequency: Int
-  """The frequency of the inventory report in minutes (5-300)"""
-  inventoryFrequency: Int
-  """The frequency of the performance report in minutes (5-300)"""
-  performanceFrequency: Int
-  """The frequency of the usage intelligence report in days (1-30)"""
-  usageIntelligenceFrequency: Int
+  """InfluxDB component specification"""
+  influxDB: ObjectStoreComponentSpecInputType
+  """StorageManagement component specification"""
+  storageManagement: ObjectStoreComponentSpecInputType
+  """rep component specification"""
+  rep: ObjectStoreComponentSpecInputType
+  """ObjectStore Metering"""
+  objectStoreMetering: ObjectStoreComponentSpecInputType
+  """Resource component specification"""
+  resource: ObjectStoreComponentSpecInputType
+  """Telegraf component specification"""
+  telegraf: ObjectStoreComponentSpecInputType
+  """DEOSEvents component specification"""
+  deosEvents: ObjectStoreComponentSpecInputType
+  """Atlas component specification"""
+  atlas: ObjectStoreComponentSpecInputType
+  """S3 component specification"""
+  s3: ObjectStoreComponentSpecInputType
+  """GeoReceiver component specification"""
+  geoReceiver: ObjectStoreComponentSpecInputType
+  """StorageServerManager component specification"""
+  storageServerManager: ObjectStoreComponentSpecInputType
 }
 
 """An ECS object storage cluster instance"""
@@ -2788,14 +2401,6 @@ type StorageTopologyConfig {
 
 """Information about installed settings"""
 input SizingInputTypeInput {
-  """Workloads to be handled by the ObjectStore"""
-  workloads: [WorkloadInput]!
-  """The data shell be encrypted"""
-  encryption: Boolean = false
-  """Selected node capacity"""
-  selectedNodeCapacity: QuantityInput
-  """Average ratio of reads over writes in the workload"""
-  readWriteRatio: Int = 80
   """List of storage pools available for this object store"""
   storagePoolList: [StoragePoolInput]
   """Storage class to be used for system data volumes"""
@@ -2816,6 +2421,8 @@ input SizingInputTypeInput {
   Projected years of growth compoundly at the given GrowthRate for the store
   """
   selectedYearsOfGrowth: Int
+  """Storage class to be used for stream data volumes"""
+  streamDataStorageClass: SizingInputStorageClassInput
   """Indicates that the object store is using HA volumes"""
   highlyAvailableVolumes: Boolean = false
   """Selected volume capacity for storage server component"""
@@ -2830,18 +2437,44 @@ input SizingInputTypeInput {
   useCase: UseCaseType
   """Selected number of volumes for storage server component"""
   selectedVolumeCount: Int
-  """Storage class to be used for stream data volumes"""
-  streamDataStorageClass: SizingInputStorageClassInput
+  """Workloads to be handled by the ObjectStore"""
+  workloads: [WorkloadInput]!
+  """The data shell be encrypted"""
+  encryption: Boolean = false
+  """Selected node capacity"""
+  selectedNodeCapacity: QuantityInput
+  """Average ratio of reads over writes in the workload"""
+  readWriteRatio: Int = 80
 }
 
-"""last time the role is used."""
-type LastUsed {
-  """
-  The date and time, in ISO 8601 date-time format, when the role was created
-  """
-  lastUsedDate: DateTime
-  """which AWS region the role is created"""
-  region: String
+"""An amount of consumable node resource: storage, CPU, memory, etc."""
+input QuantityInput {
+  """The amount of on the quantity as a number"""
+  value: Float
+  """The measurement unit of the quantity: Ki, Mi, milli-cores, etc."""
+  unit: String
+}
+
+"""An edge in a connection"""
+type IAMSAMLProviderEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: IAMSAMLProvider
+}
+
+"""An object representing a cloudIQ instance."""
+input SupportAssistCloudIQInput {
+  """The frequency of the inventory report in minutes (5-300)"""
+  inventoryFrequency: Int
+  """The frequency of the performance report in minutes (5-300)"""
+  performanceFrequency: Int
+  """The frequency of the usage intelligence report in days (1-30)"""
+  usageIntelligenceFrequency: Int
+  """The frequency of the capacity report in minutes (5-300)"""
+  capacityFrequency: Int
+  """The frequency of the health report in minutes (5-300)"""
+  healthFrequency: Int
 }
 
 enum Profile {
@@ -2891,6 +2524,40 @@ type CustomerContact {
   prefLanguage: String
   """The time zone offset of the customer contact"""
   timeZoneOffset: String
+}
+
+"""last time the role is used."""
+type LastUsed {
+  """
+  The date and time, in ISO 8601 date-time format, when the role was created
+  """
+  lastUsedDate: DateTime
+  """which AWS region the role is created"""
+  region: String
+}
+
+"""An edge in a connection"""
+type HelmChartEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: HelmChart
+}
+
+"""An edge in a connection"""
+type AlertPolicyEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: AlertPolicy
+}
+
+"""Fields sortable for license field"""
+enum LicenseSortableFieldV2 {
+  enterpriseSoftwareID
+  instanceSoftwareID
+  name
+  namespace
 }
 
 """Fields sortable for objectstore template field"""
@@ -3415,30 +3082,6 @@ input TagInput {
   value: String!
 }
 
-"""An edge in a connection"""
-type HelmChartEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: HelmChart
-}
-
-"""An edge in a connection"""
-type AlertPolicyEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: AlertPolicy
-}
-
-"""Fields sortable for license field"""
-enum LicenseSortableFieldV2 {
-  enterpriseSoftwareID
-  instanceSoftwareID
-  name
-  namespace
-}
-
 """Changes the sort order of nodes returned in a connection"""
 input RemoteInstanceSort {
   """Name of field on which to sort the connection"""
@@ -3456,29 +3099,13 @@ type DetachGroupPolicyType {
 }
 
 input ObjectStoreInput {
-  """The object store to be created"""
-  objectStore: ObjectStoreInputType
   """Name of the object store and namespace it resides in"""
   namespacedName: NamespacedNameInput
-}
-
-"""Additional filters for identifying the source objects for replication"""
-input ReplicationSourceSelectionCriteriaInput {
-  """
-  Not implemented. A filter that you for specifying selections for modifications on replicas
-  """
-  replicaModifications: SourceSelectionCriteriaInput
-  """
-  Not implemented. Filter information for the selection of objects encrypted with AWS KMS
-  """
-  sseKmsEncryptedObjects: SseKmsEncryptedObjectsInput
+  """The object store to be created"""
+  objectStore: ObjectStoreInputType
 }
 
 input IAMUpdateAccountInput {
-  """A root user for this account"""
-  accountRootUser: String
-  """Root password used for this account"""
-  accountRootPassword: String
   """Confirmed root password used for this account"""
   accountRootConfirmPassword: String
   """A unique identifier for this account"""
@@ -3487,6 +3114,10 @@ input IAMUpdateAccountInput {
   alias: String
   """A longer text description of this account"""
   description: String
+  """A root user for this account"""
+  accountRootUser: String
+  """Root password used for this account"""
+  accountRootPassword: String
 }
 
 """An object store alert policy instance"""
@@ -3527,26 +3158,16 @@ input BucketPolicyInput {
   policy: String
 }
 
-input ManagerConfigInputType {
+"""Additional filters for identifying the source objects for replication"""
+input ReplicationSourceSelectionCriteriaInput {
   """
-  Enable application to use this certificate through names matching via wildcard
+  Not implemented. Filter information for the selection of objects encrypted with AWS KMS
   """
-  enableWildcards: Boolean
-  """Workload configuration for GraphQL API service"""
-  apiWorkloadConfig: WorkloadConfigInputType
-  """Workload configuration for Operator orchestration service"""
-  deosOperatorWorkloadConfig: WorkloadConfigInputType
-  """Workload configuration for Zookeeper Operator orchestration service"""
-  zookeeperOperatorWorkloadConfig: WorkloadConfigInputType
-  """Version of the currently installed ECS Flex Manager"""
-  version: String
-  """Connection details for the manager service"""
-  connection: NetworkConnectionInput
-}
-
-enum AccessKeyStatusType {
-  Active
-  Inactive
+  sseKmsEncryptedObjects: SseKmsEncryptedObjectsInput
+  """
+  Not implemented. A filter that you for specifying selections for modifications on replicas
+  """
+  replicaModifications: SourceSelectionCriteriaInput
 }
 
 """A connection to a list of items."""
@@ -3592,6 +3213,28 @@ enum DriveTechnologyType {
   HDD
 }
 
+input ManagerConfigInputType {
+  """
+  Enable application to use this certificate through names matching via wildcard
+  """
+  enableWildcards: Boolean
+  """Workload configuration for GraphQL API service"""
+  apiWorkloadConfig: WorkloadConfigInputType
+  """Workload configuration for Operator orchestration service"""
+  deosOperatorWorkloadConfig: WorkloadConfigInputType
+  """Workload configuration for Zookeeper Operator orchestration service"""
+  zookeeperOperatorWorkloadConfig: WorkloadConfigInputType
+  """Version of the currently installed ECS Flex Manager"""
+  version: String
+  """Connection details for the manager service"""
+  connection: NetworkConnectionInput
+}
+
+enum AccessKeyStatusType {
+  Active
+  Inactive
+}
+
 type ServicePort {
   name: String
   nodePort: Int
@@ -3626,8 +3269,16 @@ type TenantConnection {
 
 """An ObjectScale object store"""
 input ObjectStoreInputType {
-  """Storage class to use for user data and metadata"""
-  userDataStorageClass: StorageClassInput
+  """Storage class to use for control metadata"""
+  systemDataStorageClass: StorageClassInput
+  """Connection details for the s3 service"""
+  s3Connection: NetworkConnectionInput
+  """
+  Storage class for monitoring subchart (defaults to metadataStorageClass)
+  """
+  monitoringStorageClass: StorageClassInput
+  """Performance profile of the object store"""
+  profile: String
   """
   Indicates if the volumes provisioned for object store will survive a node outage
   """
@@ -3641,6 +3292,8 @@ input ObjectStoreInputType {
   platform: PlatformType
   """Version of the object store"""
   version: String!
+  """Storage class to use for user data and metadata"""
+  userDataStorageClass: StorageClassInput
   """Storage topology configuration for the object store"""
   storageTopology: StorageTopologyInput
   """
@@ -3655,16 +3308,50 @@ input ObjectStoreInputType {
   sizingInput: SizingInputTypeInput
   """The Kubernetes storageclass used for stream data"""
   streamDataStorageClass: StorageClassInput
-  """Performance profile of the object store"""
-  profile: String
-  """Storage class to use for control metadata"""
-  systemDataStorageClass: StorageClassInput
-  """Connection details for the s3 service"""
-  s3Connection: NetworkConnectionInput
+}
+
+"""Specifies replication time control related information"""
+input ReplicationTimeInputType {
   """
-  Storage class for monitoring subchart (defaults to metadataStorageClass)
+  Not implemented. The time replication on all objects and operations should be finished
   """
-  monitoringStorageClass: StorageClassInput
+  time: ReplicationTimeValueInputType!
+  """Not implemented. Specifies whether replication time is enabled"""
+  status: String!
+}
+
+"""A connection to a list of items."""
+type ObjectStoreConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+    """The field name for the summation"""
+    values: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [ObjectStoreEdge]
+  filter: String
+  isTruncated: Boolean
+  maxBuckets: Int
+  nextMarker: String
+  nextPageLink: String
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""Resource Type for cluster node"""
+type ResourceType {
+  """CPU utilization of this cluster node"""
+  cpu: Quantity
+  """Memory utilization of this cluster node"""
+  memory: Quantity
+  """Pods utilization of this cluster node"""
+  pods: Quantity
 }
 
 """Fields sortable for stateful set field"""
@@ -3715,64 +3402,6 @@ input ReplicationConfigurationType {
   Indicates that the storage class provisions volumes local to a single host
   """
   rules: [ReplicationRuleInputType]!
-}
-
-"""Specifies replication time control related information"""
-input ReplicationTimeInputType {
-  """
-  Not implemented. The time replication on all objects and operations should be finished
-  """
-  time: ReplicationTimeValueInputType!
-  """Not implemented. Specifies whether replication time is enabled"""
-  status: String!
-}
-
-"""A connection to a list of items."""
-type ObjectStoreConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-    """The field name for the summation"""
-    values: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [ObjectStoreEdge]
-  filter: String
-  isTruncated: Boolean
-  maxBuckets: Int
-  nextMarker: String
-  nextPageLink: String
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"""Resource Type for cluster node"""
-type ResourceType {
-  """CPU utilization of this cluster node"""
-  cpu: Quantity
-  """Memory utilization of this cluster node"""
-  memory: Quantity
-  """Pods utilization of this cluster node"""
-  pods: Quantity
-}
-
-"""The IAM Policy Version structure"""
-type PolicyVersions implements Node {
-  """The string version name for this policy version"""
-  PolicyVersion: String
-  """Whether or not the iam policy version is the default"""
-  SetDefault: Boolean
-  """Date on which this policy was created"""
-  createDate: DateTime
-  """The document of this policy version"""
-  document: String
-  """The ID of an object"""
-  id: ID!
 }
 
 """Service or job to check on the status of a Kubernetes applicaion"""
@@ -3843,9 +3472,18 @@ type StorageClass implements Node {
   storagePoolTypes: [String]
 }
 
-type WebhookConfiguration {
-  urn: String
-  webhookConfig: Webhook
+"""The IAM Policy Version structure"""
+type PolicyVersions implements Node {
+  """The string version name for this policy version"""
+  PolicyVersion: String
+  """Whether or not the iam policy version is the default"""
+  SetDefault: Boolean
+  """Date on which this policy was created"""
+  createDate: DateTime
+  """The document of this policy version"""
+  document: String
+  """The ID of an object"""
+  id: ID!
 }
 
 enum CertificateSigningType {
@@ -3887,16 +3525,9 @@ type AttachedPolicy implements Node {
   policyName: String
 }
 
-"""Overall health check information"""
-type HealthInfoOutput {
-  """Specific information about health checks"""
-  checks: [Check]
-  """Name of application to show health check information for"""
-  name: String
-  """Namespace of application to show health check information for"""
-  namespace: String
-  """Current state of the check(s) for this application"""
-  status: String
+type WebhookConfiguration {
+  urn: String
+  webhookConfig: Webhook
 }
 
 """An edge in a connection"""
@@ -3958,6 +3589,18 @@ type Role implements Node {
   tags: [Tag]
 }
 
+"""Overall health check information"""
+type HealthInfoOutput {
+  """Specific information about health checks"""
+  checks: [Check]
+  """Name of application to show health check information for"""
+  name: String
+  """Namespace of application to show health check information for"""
+  namespace: String
+  """Current state of the check(s) for this application"""
+  status: String
+}
+
 """Fields sortable for alert policy field"""
 enum AlertPolicySortableField {
   policyName
@@ -4014,12 +3657,6 @@ type StateType {
   name: String
 }
 
-"""Specifies if replicates delete markers"""
-input DeleteMarkerReplicationInputType {
-  """Not implemented. Indicates whether to replicate delete markers"""
-  deleteMarkerReplication: String
-}
-
 """Indicates the current status of an SRS gateway"""
 enum SRSGatewayState {
   Registered
@@ -4037,6 +3674,8 @@ input DeleteAlertPolicyInput {
 
 """IAM user used to manage object stores"""
 input UserInput {
+  """A list of tags that are associated with the specified user"""
+  tags: [TagInput]
   """The friendly name identifying the user"""
   userName: String
   """The account ID of the user"""
@@ -4047,52 +3686,12 @@ input UserInput {
   The ARN of the policy used to set the permissions boundary for the user
   """
   permissionsBoundary: String
-  """A list of tags that are associated with the specified user"""
-  tags: [TagInput]
 }
 
-"""Configuration for KAHM application"""
-type KAHMConfigTypeName {
-  """Event rules applied to events emitted from KAHM application"""
-  eventRules: [EventRule]
-  """Namespace and name of kubernetes application resource"""
-  namespacedName: NamespacedName
-  """Authentication realm to use with KAHM REST API"""
-  realm: String
-  """Password to use with KAHM REST API"""
-  restPassword: String
-  """Username to use with KAHM REST API"""
-  restUsername: String
-  """KAHM version"""
-  version: String
-  """Workload configuration for KAHM pod"""
-  workloadConfig: WorkloadConfig
-}
-
-"""
-A single customer contact, with various details pertaining to the person.
-"""
-input CustomerContactInput {
-  """The preferred time to be contacted"""
-  prefContactTime: String
-  """(Required) The email address of the customer contact"""
-  emailAddress: String!
-  """The preferred language in which email messages should be sent."""
-  prefLanguage: String
-  """
-  (Required) Identification of the primary and secondary contact.  1 is primary, 2 is secondary
-  """
-  contactOrder: Int!
-  """(Required) The last name of the customer contact"""
-  lastName: String!
-  """The preferred method of contact"""
-  prefContact: String
-  """(Required) The phone number of the customer contact"""
-  phoneNumber: String!
-  """The time zone offset of the customer contact"""
-  timeZoneOffset: String
-  """(Required) The first name of the customer contact"""
-  firstName: String!
+"""Specifies if replicates delete markers"""
+input DeleteMarkerReplicationInputType {
+  """Not implemented. Indicates whether to replicate delete markers"""
+  deleteMarkerReplication: String
 }
 
 """A connection to a list of items."""
@@ -4135,6 +3734,50 @@ type IssueEdge {
   node: Issue
 }
 
+"""Configuration for KAHM application"""
+type KAHMConfigTypeName {
+  """Event rules applied to events emitted from KAHM application"""
+  eventRules: [EventRule]
+  """Namespace and name of kubernetes application resource"""
+  namespacedName: NamespacedName
+  """Authentication realm to use with KAHM REST API"""
+  realm: String
+  """Password to use with KAHM REST API"""
+  restPassword: String
+  """Username to use with KAHM REST API"""
+  restUsername: String
+  """KAHM version"""
+  version: String
+  """Workload configuration for KAHM pod"""
+  workloadConfig: WorkloadConfig
+}
+
+"""
+A single customer contact, with various details pertaining to the person.
+"""
+input CustomerContactInput {
+  """The preferred method of contact"""
+  prefContact: String
+  """The preferred time to be contacted"""
+  prefContactTime: String
+  """(Required) The email address of the customer contact"""
+  emailAddress: String!
+  """The preferred language in which email messages should be sent."""
+  prefLanguage: String
+  """
+  (Required) Identification of the primary and secondary contact.  1 is primary, 2 is secondary
+  """
+  contactOrder: Int!
+  """(Required) The last name of the customer contact"""
+  lastName: String!
+  """(Required) The first name of the customer contact"""
+  firstName: String!
+  """(Required) The phone number of the customer contact"""
+  phoneNumber: String!
+  """The time zone offset of the customer contact"""
+  timeZoneOffset: String
+}
+
 """gateway to connect to SupportAssist """
 type Gateway {
   """
@@ -4152,6 +3795,29 @@ type Gateway {
 input DefaultEventRuleDeleteInput {
   """Identifier of the event rule to be deleted"""
   eventRuleIdentifier: Int!
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input FederatedObjectStoreSort {
+  """Name of field on which to sort the connection"""
+  field: FederatedObjectStoreSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+type NamespacedName {
+  """Name of the resource"""
+  name: String
+  """Namespace of the object"""
+  namespace: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input AccessKeySort {
+  """Direction to sort the connection"""
+  direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: AccessKeySortableField
 }
 
 type AccessKey implements Node {
@@ -4173,18 +3839,6 @@ type AccessKey implements Node {
 
 """An object store alert policy instance"""
 input AlertPolicyInput {
-  """
-  Statistic type of the alert policy. Avg, min, max, count, sum, p90, etc
-  """
-  statistic: String
-  """Policy name of the alert policy"""
-  policyName: String
-  """Metric name of the alert policy"""
-  metricName: String
-  """Operator type of the alert policy. Greater_than, Lesser_than, etc"""
-  operator: String
-  """AWS Evaluation Period"""
-  datapointsToConsider: Int
   """Number of data points breaching the threshold before raising an alert"""
   datapointsToAlert: Int
   """Determines whether or not the alert policy is active"""
@@ -4202,29 +3856,18 @@ input AlertPolicyInput {
   """Description of creator of the alert policy"""
   createdBy: String
   condition: AlertPolicyConditionInput
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input FederatedObjectStoreSort {
-  """Name of field on which to sort the connection"""
-  field: FederatedObjectStoreSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-type NamespacedName {
-  """Name of the resource"""
-  name: String
-  """Namespace of the object"""
-  namespace: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input AccessKeySort {
-  """Name of field on which to sort the connection"""
-  field: AccessKeySortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
+  """
+  Statistic type of the alert policy. Avg, min, max, count, sum, p90, etc
+  """
+  statistic: String
+  """Policy name of the alert policy"""
+  policyName: String
+  """Metric name of the alert policy"""
+  metricName: String
+  """Operator type of the alert policy. Greater_than, Lesser_than, etc"""
+  operator: String
+  """AWS Evaluation Period"""
+  datapointsToConsider: Int
 }
 
 """A connection to a list of items."""
@@ -4258,19 +3901,6 @@ type EventRule {
   notifiers: [String]
 }
 
-input DECKSConfigInput {
-  """Name of Manager and namespace it resides in"""
-  manager: NamespacedNameInput
-  """The config of Manager"""
-  decksConfig: DECKSConfigInputType
-}
-
-"""Checks for an application"""
-type Check {
-  """Name of the application check"""
-  name: String
-}
-
 """A selector used to match Kubernetes resources by label"""
 type LabelSelector {
   """List of set expressions to match labels of pods"""
@@ -4287,6 +3917,10 @@ enum FederatedObjectStoreSortableField {
 }
 
 input SupportAssistConfigInput {
+  """The Personal Identification Number used in registration."""
+  pin: String
+  """The site at which the SupportAssist is operating."""
+  siteID: String
   """Deprecated: use testConnectivityID"""
   testDialHome: Boolean
   """A list of contacts for this instance of SupportAssist."""
@@ -4313,41 +3947,28 @@ input SupportAssistConfigInput {
   systemMode: String
   """The access key corresponding to the PIN used in registration."""
   accessKey: String
-  """The Personal Identification Number used in registration."""
-  pin: String
-  """The site at which the SupportAssist is operating."""
-  siteID: String
 }
 
-"""The descriptors for the Object Lock."""
-type ObjectLockRule {
-  days: Int
-  mode: String
-  years: Int
+input DECKSConfigInput {
+  """Name of Manager and namespace it resides in"""
+  manager: NamespacedNameInput
+  """The config of Manager"""
+  decksConfig: DECKSConfigInputType
 }
 
-input NotificationConfigurationInput {
-  """
-  An optional unique identifier for configurations in a notification configuration.
-  """
-  id: String
-  """
-  The Amazon Resource Name (ARN) of the Amazon SNS topicto which Amazon S3 publishes a message when it detects events of the specified type.
-  """
-  topicARN: String
-  """The bucket events to watch for"""
-  event: [String]
-  """Filter rules for the events chosen"""
-  filter: [FilterRule]
+"""Checks for an application"""
+type Check {
+  """Name of the application check"""
+  name: String
 }
 
 """Filter connection based comparison with string or string list argument"""
 input FilterDateTimeArgument {
-  operator: Operator
   value: DateTime
   listValue: [DateTime]
   range: [DateTime]
   field: String
+  operator: Operator
 }
 
 """Changes the sort order of nodes returned in a connection"""
@@ -4377,14 +3998,26 @@ type HelmReleaseConnection {
   pageInfo: PageInfo!
 }
 
-"""Replication metrics information and events"""
-input MetricsInput {
+"""The descriptors for the Object Lock."""
+type ObjectLockRule {
+  days: Int
+  mode: String
+  years: Int
+}
+
+input NotificationConfigurationInput {
   """
-  Not implemented. The time threshold for emitting the s3:Replication:OperationMissedThreshold
+  The Amazon Resource Name (ARN) of the Amazon SNS topicto which Amazon S3 publishes a message when it detects events of the specified type.
   """
-  eventThreshold: ReplicationTimeValueInputType
-  """Not implemented. Specifies if replication metrics are enabled"""
-  status: String!
+  topicARN: String
+  """The bucket events to watch for"""
+  event: [String]
+  """Filter rules for the events chosen"""
+  filter: [FilterRule]
+  """
+  An optional unique identifier for configurations in a notification configuration.
+  """
+  id: String
 }
 
 """An ECS object storage cluster remote instance"""
@@ -4418,11 +4051,14 @@ input SRSTestGatewayInputType {
   port: Int
 }
 
-enum IssueTypes {
-  Warning
-  Error
-  Critical
-  Normal
+"""Replication metrics information and events"""
+input MetricsInput {
+  """
+  Not implemented. The time threshold for emitting the s3:Replication:OperationMissedThreshold
+  """
+  eventThreshold: ReplicationTimeValueInputType
+  """Not implemented. Specifies if replication metrics are enabled"""
+  status: String!
 }
 
 """Fields sortable for notifier field"""
@@ -4455,6 +4091,55 @@ type PersistentVolumeClaim implements Node & KubernetesResource {
   storageClassName: String
   volumeMode: String
   volumeName: String
+}
+
+enum IssueTypes {
+  Warning
+  Error
+  Critical
+  Normal
+}
+
+input ToggleIAMAccountDisabledInput {
+  """An unique identifier for this account"""
+  accountID: String!
+  """A flag to indicate if the account should be disabled"""
+  accountDisabled: Boolean!
+}
+
+"""An edge in a connection"""
+type TenantEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: Tenant
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input PodSort {
+  """Name of field on which to sort the connection"""
+  field: PodSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""A kubernetes deployment"""
+type Deployment implements Node & KubernetesResource {
+  availableReplicas: Int
+  creationTimestamp: String
+  """The ID of an object"""
+  id: ID!
+  kind: String
+  name: String
+  namespace: String
+  readiness: String
+  readyReplicas: Int
+  replicas: Int
+  selector: LabelSelector
+  size: Quantity
+  sizeResource: String
+  unavailableReplicas: Int
+  updatedReplicas: Int
 }
 
 """A connection to a list of items."""
@@ -4500,72 +4185,6 @@ type AccountAccessKeyEdge {
 input IAMDeleteAccountInput {
   """An unique identifier for this account"""
   accountID: String!
-}
-
-input ToggleIAMAccountDisabledInput {
-  """A flag to indicate if the account should be disabled"""
-  accountDisabled: Boolean!
-  """An unique identifier for this account"""
-  accountID: String!
-}
-
-"""An edge in a connection"""
-type TenantEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: Tenant
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input PodSort {
-  """Name of field on which to sort the connection"""
-  field: PodSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""A kubernetes deployment"""
-type Deployment implements Node & KubernetesResource {
-  availableReplicas: Int
-  creationTimestamp: String
-  """The ID of an object"""
-  id: ID!
-  kind: String
-  name: String
-  namespace: String
-  readiness: String
-  readyReplicas: Int
-  replicas: Int
-  selector: LabelSelector
-  size: Quantity
-  sizeResource: String
-  unavailableReplicas: Int
-  updatedReplicas: Int
-}
-
-"""The attached Entity to the Policy"""
-type AttachedPolicyEntity implements Node {
-  """Amazon Resource ID of attached user"""
-  entityID: String
-  """Amazon Resource Name of attached user"""
-  entityName: String
-  """
-  Type of the Entity associated with the Policy.  Possible values are 'User', 'Role' and 'Group'
-  """
-  entityType: String
-  """The ID of an object"""
-  id: ID!
-  """Entity Usage Field accepts PermissionsPolicy and PermissionsBoundary"""
-  usageType: String
-}
-
-"""A (partial) License resource"""
-type LicenseType {
-  activationDate: String
-  eswid: String
-  name: String
-  subscriptionType: String
 }
 
 """The metering information about the bucket"""
@@ -4619,12 +4238,12 @@ type BucketMeteringType {
 }
 
 input GetLegalHoldInput {
-  """Acknowledgement field for paid requests."""
-  requestPayer: String!
   """The version ID of the object that you want to place a Legal Hold on."""
   versionID: String
   """The object key that you want to place a Legal Hold on."""
   key: String
+  """Acknowledgement field for paid requests."""
+  requestPayer: String!
 }
 
 """
@@ -4647,6 +4266,74 @@ type StoragePolicy implements Node {
   storagePolicyName: String
   """A set of rules for how the storage policy should provision volumes"""
   storagePolicyRules: [StringMap]
+}
+
+"""The attached Entity to the Policy"""
+type AttachedPolicyEntity implements Node {
+  """Amazon Resource ID of attached user"""
+  entityID: String
+  """Amazon Resource Name of attached user"""
+  entityName: String
+  """
+  Type of the Entity associated with the Policy.  Possible values are 'User', 'Role' and 'Group'
+  """
+  entityType: String
+  """The ID of an object"""
+  id: ID!
+  """Entity Usage Field accepts PermissionsPolicy and PermissionsBoundary"""
+  usageType: String
+}
+
+"""A (partial) License resource"""
+type LicenseType {
+  activationDate: String
+  eswid: String
+  name: String
+  subscriptionType: String
+}
+
+"""An object user secret key"""
+input ObjectUserDeleteSecretKeyTypeInput {
+  """An Object user name"""
+  objectUserName: String!
+  """A secret key"""
+  objectUserSecretKey: String!
+}
+
+"""Names used to sign this certificate"""
+type CertificateNames {
+  """Country of origin for certificate signer"""
+  country: String
+  """Locality of origin (city, town, county, etc.) for certificate signer"""
+  locality: String
+  """Organization signing this certificate"""
+  organization: String
+  """Organization unit (department) signing this certificate"""
+  organizationalUnit: String
+  """State or province of origin for certificate signer"""
+  state: String
+}
+
+"""An expressions used to match a pod label"""
+type MatchExpression {
+  """Label key to match against"""
+  key: String
+  """Operator to use in value comparisons"""
+  operator: String
+  """List of label values to compare against"""
+  values: [String]
+}
+
+"""Replication throughput for an object store"""
+type ReplicationInputType {
+  """The object store being replicated to"""
+  name: String
+  """The CRR RTO value in a destination object store"""
+  rto: Quantity
+  """
+  The realized bandwidth of replication data to a destination object store
+  """
+  throughput: Quantity
 }
 
 """A connection to a list of items."""
@@ -4695,50 +4382,6 @@ enum AttachedGroupUserSortableField {
   userName
 }
 
-"""An object user secret key"""
-input ObjectUserDeleteSecretKeyTypeInput {
-  """An Object user name"""
-  objectUserName: String!
-  """A secret key"""
-  objectUserSecretKey: String!
-}
-
-"""Names used to sign this certificate"""
-type CertificateNames {
-  """Country of origin for certificate signer"""
-  country: String
-  """Locality of origin (city, town, county, etc.) for certificate signer"""
-  locality: String
-  """Organization signing this certificate"""
-  organization: String
-  """Organization unit (department) signing this certificate"""
-  organizationalUnit: String
-  """State or province of origin for certificate signer"""
-  state: String
-}
-
-"""An expressions used to match a pod label"""
-type MatchExpression {
-  """Label key to match against"""
-  key: String
-  """Operator to use in value comparisons"""
-  operator: String
-  """List of label values to compare against"""
-  values: [String]
-}
-
-"""Replication throughput for an object store"""
-type ReplicationInputType {
-  """The object store being replicated to"""
-  name: String
-  """The CRR RTO value in a destination object store"""
-  rto: Quantity
-  """
-  The realized bandwidth of replication data to a destination object store
-  """
-  throughput: Quantity
-}
-
 """An edge in a connection"""
 type PodEdge {
   """ cursor for use in pagination"""
@@ -4776,54 +4419,6 @@ input SupportAssistGatewayInput {
   An integer representing the priority of the gateway. 1 is highest priority. (1-1000)
   """
   priority: Int
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input BucketSort {
-  """Name of field on which to sort the connection"""
-  field: BucketSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""
-A Kubernetes StoragePool used to evaluate storage capacity resources by node and storage class
-"""
-type SizerStoragePool {
-  """Names of all nodes in the cluster that can access this storage pool"""
-  accessibleNodes: [String]
-  """
-  Names of all storage classes in the cluster can be provisioned from this storage pool
-  """
-  compatibleStorageClasses: [String]
-  """The amount of free space remaining in the pool in MiB"""
-  freeSpaceInMiB: Int
-  """Unique name of the storage pool"""
-  name: String
-}
-
-"""An expressions used to match a pod label"""
-input MatchExpressionInput {
-  """Label key to match against"""
-  key: String
-  """Operator to use in value comparisons"""
-  operator: String
-  """List of label values to compare against"""
-  values: [String]
-}
-
-"""TLS Certificate for HTTPS endpoints"""
-input CertificateSigningRequestInput {
-  """Algorithm used to generate key"""
-  keyAlgorithm: String
-  """Size of the key in bits"""
-  keySize: Int
-  """Certificate common name"""
-  commonName: String
-  """Certificate contact email address"""
-  email: String
-  """Names used to sign this certificate"""
-  names: CertificateNamesInput
 }
 
 """Comparison operator used to test fields against values"""
@@ -4898,37 +4493,60 @@ type StoragePool implements Node {
   totalCapacityInMiB: Int
 }
 
+"""Changes the sort order of nodes returned in a connection"""
+input BucketSort {
+  """Name of field on which to sort the connection"""
+  field: BucketSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""
+A Kubernetes StoragePool used to evaluate storage capacity resources by node and storage class
+"""
+type SizerStoragePool {
+  """Names of all nodes in the cluster that can access this storage pool"""
+  accessibleNodes: [String]
+  """
+  Names of all storage classes in the cluster can be provisioned from this storage pool
+  """
+  compatibleStorageClasses: [String]
+  """The amount of free space remaining in the pool in MiB"""
+  freeSpaceInMiB: Int
+  """Unique name of the storage pool"""
+  name: String
+}
+
+"""An expressions used to match a pod label"""
+input MatchExpressionInput {
+  """Label key to match against"""
+  key: String
+  """Operator to use in value comparisons"""
+  operator: String
+  """List of label values to compare against"""
+  values: [String]
+}
+
+"""TLS Certificate for HTTPS endpoints"""
+input CertificateSigningRequestInput {
+  """Certificate common name"""
+  commonName: String
+  """Certificate contact email address"""
+  email: String
+  """Names used to sign this certificate"""
+  names: CertificateNamesInput
+  """Algorithm used to generate key"""
+  keyAlgorithm: String
+  """Size of the key in bits"""
+  keySize: Int
+}
+
 """An edge in a connection"""
 type ObjectStoreTemplateEdge {
   """ cursor for use in pagination"""
   cursor: String!
   """The item at the end of the edge"""
   node: ObjectStoreTemplate
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input StorageClassSort {
-  """Direction to sort the connection"""
-  direction: SortDirection
-  """Name of field on which to sort the connection"""
-  field: StorageClassSortableField
-}
-
-input ObjectLockConfigurationInput {
-  """Whether or not the object lock is enabled."""
-  enabled: Boolean
-  """The rule for this object lock."""
-  retention: ObjectLockConfigurationRule
-}
-
-"""The input to set a Tenant's quota."""
-input SetTenantQuotaInput {
-  notificationSizeInCount: String
-  objectStore: NamespacedNameInput
-  accountID: String
-  blockSize: String
-  notificationSize: String
-  blockSizeInCount: String
 }
 
 """
@@ -5015,6 +4633,31 @@ type Metering {
   The physical drive capacity consumed to store application data replicated to this bucket scale in MiB
   """
   replicationObjectSizePhysicalInMiB: Int
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input StorageClassSort {
+  """Direction to sort the connection"""
+  direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: StorageClassSortableField
+}
+
+input ObjectLockConfigurationInput {
+  """The rule for this object lock."""
+  retention: ObjectLockConfigurationRule
+  """Whether or not the object lock is enabled."""
+  enabled: Boolean
+}
+
+"""The input to set a Tenant's quota."""
+input SetTenantQuotaInput {
+  notificationSizeInCount: String
+  objectStore: NamespacedNameInput
+  accountID: String
+  blockSize: String
+  notificationSize: String
+  blockSizeInCount: String
 }
 
 """Fields sortable for persistent volume field"""
@@ -5190,19 +4833,6 @@ type BucketQuota {
   notificationSize: Int
 }
 
-"""An edge in a connection"""
-type FedObjectStoreEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: FedObjectStore
-}
-
-input LicenseInput {
-  """The license data (String)"""
-  license: String
-}
-
 """list of healthchecks"""
 type HealthCheckData {
   """Health check definitions"""
@@ -5227,47 +4857,17 @@ type PodAffinityPreferredTerm {
   weight: Int
 }
 
-"""Settings for the license configuration"""
-type LicenseV2 {
-  """The user who activated the license"""
-  activatedBy: String
-  """The company which activated the license"""
-  activationCompany: String
-  """The date when the license was activated"""
-  activationDate: String
-  """The activation ID for the license"""
-  activationID: String
-  """The Site ID associated with this license"""
-  activationSiteID: String
-  """Entitlement Software ID"""
-  enterpriseSoftwareID: String
-  """List of features"""
-  features: [FeatureV2]
-  """The ID of an object"""
-  id: ID!
-  """Instance Software ID (Serial Number)"""
-  instanceSoftwareID: String
-  name: String
-  namespace: String
-}
-
 """An edge in a connection"""
-type AttachedPolicyEdge {
+type FedObjectStoreEdge {
   """ cursor for use in pagination"""
   cursor: String!
   """The item at the end of the edge"""
-  node: AttachedPolicy
+  node: FedObjectStore
 }
 
-input IAMDeletePolicyVersionInput {
-  """
-  The ARN related to the IAM Policy which should have the version deleted
-  """
-  ARN: String!
-  """The name of the version to delete"""
-  PolicyVersion: String!
-  """The accountID in plaintext"""
-  account: String!
+input LicenseInput {
+  """The license data (String)"""
+  license: String
 }
 
 """An amount of consumable node resource: storage, CPU, memory, etc."""
@@ -5313,6 +4913,49 @@ type ResourceProvision {
   storageRequest: Quantity
   """Requested storage by an object store in Megabytes"""
   storageRequestInMB: Int
+}
+
+"""Settings for the license configuration"""
+type LicenseV2 {
+  """The user who activated the license"""
+  activatedBy: String
+  """The company which activated the license"""
+  activationCompany: String
+  """The date when the license was activated"""
+  activationDate: String
+  """The activation ID for the license"""
+  activationID: String
+  """The Site ID associated with this license"""
+  activationSiteID: String
+  """Entitlement Software ID"""
+  enterpriseSoftwareID: String
+  """List of features"""
+  features: [FeatureV2]
+  """The ID of an object"""
+  id: ID!
+  """Instance Software ID (Serial Number)"""
+  instanceSoftwareID: String
+  name: String
+  namespace: String
+}
+
+"""An edge in a connection"""
+type AttachedPolicyEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: AttachedPolicy
+}
+
+input IAMDeletePolicyVersionInput {
+  """The name of the version to delete"""
+  PolicyVersion: String!
+  """The accountID in plaintext"""
+  account: String!
+  """
+  The ARN related to the IAM Policy which should have the version deleted
+  """
+  ARN: String!
 }
 
 """Resource CPU and Memory Utilization"""
@@ -5387,10 +5030,63 @@ type StatefulSet implements Node & KubernetesResource {
 }
 
 input ExternalConnectionInput {
-  """Namespace it resides in"""
-  namespacedName: NamespacedNameInput
   """Connection details for the external service"""
   externalConnection: NetworkConnectionInput
+  """Namespace it resides in"""
+  namespacedName: NamespacedNameInput
+}
+
+input DeleteIAMRolePolicyInput {
+  """The name of the policy document"""
+  policyName: String!
+  """The account where resource created"""
+  accountID: String!
+  """The name of the role to delete"""
+  roleName: String!
+}
+
+"""Kubernetes Notifier"""
+type Notifier implements Node {
+  available: Boolean
+  grpcConnTimeout: Int
+  grpcRetries: Int
+  hostname: String
+  """The ID of an object"""
+  id: ID!
+  name: String
+  namespace: String
+  port: Int
+  totalEventsDelivered: Int
+}
+
+"""A connection to a list of items."""
+type HealthCheckConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+    """The field name for the summation"""
+    values: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [HealthCheckEdge]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+enum CertificateStatus {
+  KubernetesCertificateApproved
+  KubernetesCertificateInstalled
+  KubernetesCertificateDenied
+  InternalCASignedCertificateInstalled
+  Started
+  ExternalCertificateInstalled
+  SelfSignedCertificateInstalled
+  KubernetesCertificateRequested
 }
 
 """A kubernetes label from application resource"""
@@ -5489,59 +5185,6 @@ input LegalHoldBucketConfiguration {
   tenantID: ID!
 }
 
-input DeleteIAMRolePolicyInput {
-  """The name of the policy document"""
-  policyName: String!
-  """The account where resource created"""
-  accountID: String!
-  """The name of the role to delete"""
-  roleName: String!
-}
-
-"""Kubernetes Notifier"""
-type Notifier implements Node {
-  available: Boolean
-  grpcConnTimeout: Int
-  grpcRetries: Int
-  hostname: String
-  """The ID of an object"""
-  id: ID!
-  name: String
-  namespace: String
-  port: Int
-  totalEventsDelivered: Int
-}
-
-"""A connection to a list of items."""
-type HealthCheckConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-    """The field name for the summation"""
-    values: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [HealthCheckEdge]
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-enum CertificateStatus {
-  KubernetesCertificateApproved
-  KubernetesCertificateInstalled
-  KubernetesCertificateDenied
-  InternalCASignedCertificateInstalled
-  Started
-  ExternalCertificateInstalled
-  SelfSignedCertificateInstalled
-  KubernetesCertificateRequested
-}
-
 """Selects modifications on replicas"""
 input SourceSelectionCriteriaInput {
   """Not implemented. Filter for replication modifications on replicas"""
@@ -5602,6 +5245,33 @@ type AccountConnection {
   nextPageLink: String
   """Information to aid in pagination."""
   pageInfo: PageInfo!
+}
+
+type values {
+  fieldName: String!
+  floatValue: Float
+  integerValue: Int
+  quantityValue: Quantity
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input TenantSort {
+  """Name of field on which to sort the connection"""
+  field: TenantSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
 """Object store storage usage"""
@@ -5666,40 +5336,6 @@ type AttachedGroupUsersConnection {
   pageInfo: PageInfo!
 }
 
-type values {
-  fieldName: String!
-  floatValue: Float
-  integerValue: Int
-  quantityValue: Quantity
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input TenantSort {
-  """Name of field on which to sort the connection"""
-  field: TenantSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-input ObjectUserSecretKeyInputDelete {
-  """Namespaced name of the objectStore in which this object user resides"""
-  objectStore: NamespacedNameInput
-  """The objectUserSecretKey to be deleted"""
-  objectUserSecretKey: ObjectUserDeleteSecretKeyTypeInput!
-}
-
 type groups {
   category: String
   count: Int
@@ -5737,6 +5373,13 @@ type SizerStorageClass {
   poolType: String!
 }
 
+input ObjectUserSecretKeyInputDelete {
+  """Namespaced name of the objectStore in which this object user resides"""
+  objectStore: NamespacedNameInput
+  """The objectUserSecretKey to be deleted"""
+  objectUserSecretKey: ObjectUserDeleteSecretKeyTypeInput!
+}
+
 """Labels that are assigned to the resource"""
 type Labels {
   """The name of the labelType"""
@@ -5753,34 +5396,14 @@ enum UseCaseType {
 }
 
 input PutObjectLockPolicyInput {
-  """A token to allow Object Lock to be enabled for an existing bucket."""
-  token: String
   """The configuration for the lock to apply."""
   configuration: ObjectLockConfigurationInput!
   """The bucket relay ID to put the object lock onto."""
   bucket: ObjectLockBucketConfiguration!
   """A field of acknowledgement for paid requests. """
   requestPayer: String!
-}
-
-"""Destination to publish analysis or configuration results"""
-input DestinationInputType {
-  """Storage class to use when replicating objects"""
-  storageClass: String
-  """Change the replica ownership in a cross-account scenario"""
-  ownerOverride: Boolean
-  """Destination bucket owner account ID for change replica ownership"""
-  account: String
-  """ARN of the bucket to store results in"""
-  bucket: String!
-  """Not implemented. Provides information about encryption"""
-  encryptionConfiguration: EncryptionConfigurationInputType
-  """
-  Not implemented. Replication metrics-related settings enabling replication
-  """
-  metrics: MetricsInput
-  """Not implemented. S3 Replication Time Control information (S3 RTC)"""
-  replicationTime: ReplicationTimeInputType
+  """A token to allow Object Lock to be enabled for an existing bucket."""
+  token: String
 }
 
 """A connection to a list of items."""
@@ -5820,6 +5443,45 @@ input ObjectUserSecretKeyInput {
   objectStore: NamespacedNameInput
   """The objectUserSecretKey to be created"""
   objectUserSecretKey: ObjectUserSecretKeyTypeInput!
+}
+
+"""Destination to publish analysis or configuration results"""
+input DestinationInputType {
+  """Storage class to use when replicating objects"""
+  storageClass: String
+  """Change the replica ownership in a cross-account scenario"""
+  ownerOverride: Boolean
+  """Destination bucket owner account ID for change replica ownership"""
+  account: String
+  """ARN of the bucket to store results in"""
+  bucket: String!
+  """Not implemented. Provides information about encryption"""
+  encryptionConfiguration: EncryptionConfigurationInputType
+  """
+  Not implemented. Replication metrics-related settings enabling replication
+  """
+  metrics: MetricsInput
+  """Not implemented. S3 Replication Time Control information (S3 RTC)"""
+  replicationTime: ReplicationTimeInputType
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object"""
+  id: ID!
+}
+
+"""An edge in a connection"""
+type FederatedObjectStoreEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: FederatedObjectStore
+}
+
+"""An object lock rule configuration associated with a bucket."""
+type ObjectLockRuleConfiguration {
+  retention: ObjectLockRule
 }
 
 """Information about installed settings"""
@@ -5907,25 +5569,6 @@ type ClusterNode implements Node {
   totalStorage: Quantity
 }
 
-"""An object with an ID"""
-interface Node {
-  """The id of the object"""
-  id: ID!
-}
-
-"""An edge in a connection"""
-type FederatedObjectStoreEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: FederatedObjectStore
-}
-
-"""An object lock rule configuration associated with a bucket."""
-type ObjectLockRuleConfiguration {
-  retention: ObjectLockRule
-}
-
 """An edge in a connection"""
 type PersistentVolumeEdge {
   """ cursor for use in pagination"""
@@ -5951,8 +5594,6 @@ type TenantCreate {
 
 """Results output fields"""
 input ObjectStoreOutputType {
-  maximumPotentialTransactions: Int!
-  cpu: QuantityInput!
   memory: QuantityInput!
   """
   The signature of the sizing request as given by sizer. This is the same as the RequestSizing ID.
@@ -5961,24 +5602,8 @@ input ObjectStoreOutputType {
   requiredCapacity: QuantityInput!
   transactionRate: Int!
   maximumPotentialCapacity: QuantityInput!
-}
-
-input IAMPolicyCreateInput {
-  """The accountID in plaintext"""
-  account: String!
-  """The JSON document containing all of the policy information"""
-  document: String!
-  """The ARN of the iam policy to create a new policy for"""
-  name: String!
-  """The human-friendly description of the policy"""
-  description: String
-  """The path for the policy. Defaults to '/'"""
-  path: String
-}
-
-input ManagerUpgradeInput {
-  """The version to upgrade Manager to"""
-  version: String!
+  maximumPotentialTransactions: Int!
+  cpu: QuantityInput!
 }
 
 """
@@ -6007,73 +5632,22 @@ input AffinityInput {
   podAntiAffinity: PodAffinityTermInputType
 }
 
-"""Fields sortable for SRS gateway field"""
-enum SRSGatewaySortableField {
-  gatewayPassword
-  remoteAccessUsername
-  remoteAccessPassword
-  registered
-  testDialHomeResult
-  serialNumber
-  testDialHomeTime
-  reconcileError
-  gatewayUsername
-  gatewayHost
-  gatewayPort
-  remoteAccessExternalIP
-  gatewaySerialNumber
-}
-
-"""A connection to a list of items."""
-type LicenseConnection {
-  """Count and summarize for each defined grouping"""
-  aggregations(
-    """The aggregation function to use. Currently support sum or count"""
-    function: ConnectionAggregationFunction
-    """The field name to group the value"""
-    groups: [String]
-    """The field name for the summation"""
-    values: [String]
-  ): ConnectionAggregation
-  """Summarized counts for each defined grouping"""
-  counts(groups: [String]): Counts
-  """Information to aid in pagination."""
-  edges: [LicenseEdge]
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input AttachedPolicySort {
-  """Direction to sort the connection"""
-  direction: SortDirection
-  """Name of field on which to sort the connection"""
-  field: AttachedPolicySortableField
-}
-
-input S3BucketCreationInput {
-  """An optional list of those with read access to bucket objects"""
-  grantRead: String
-  """An optional list of those with write access to bucket objects."""
-  grantWrite: String
-  """An optional list of those who can write to the ACL"""
-  grantWriteACP: String
-  """The tenant ID is used to namespace a bucket during creation"""
-  tenantID: ID!
-  """An XML document representing the Access Control List for the bucket."""
-  ACL: String
-  """Enable server-side encryption for this bucket."""
-  encryptionEnabled: Boolean
-  """The region for the bucket creation."""
-  region: String = "us-west-2"
-  """An optional list of those who have all access to this bucket"""
-  fullControlACL: String
-  """The bucket to be created"""
+input IAMPolicyCreateInput {
+  """The JSON document containing all of the policy information"""
+  document: String!
+  """The ARN of the iam policy to create a new policy for"""
   name: String!
-  """Whether or not object lock is enabled"""
-  objectLock: Boolean
-  """An optional list of those who can view the ACL"""
-  grantReadACP: String
+  """The human-friendly description of the policy"""
+  description: String
+  """The path for the policy. Defaults to '/'"""
+  path: String
+  """The accountID in plaintext"""
+  account: String!
+}
+
+input ManagerUpgradeInput {
+  """The version to upgrade Manager to"""
+  version: String!
 }
 
 """Helm chart package available in the repository"""
@@ -6142,6 +5716,75 @@ type ServiceEdge {
   node: Service
 }
 
+"""Fields sortable for SRS gateway field"""
+enum SRSGatewaySortableField {
+  gatewayPassword
+  remoteAccessUsername
+  remoteAccessPassword
+  registered
+  testDialHomeResult
+  serialNumber
+  testDialHomeTime
+  reconcileError
+  gatewayUsername
+  gatewayHost
+  gatewayPort
+  remoteAccessExternalIP
+  gatewaySerialNumber
+}
+
+"""A connection to a list of items."""
+type LicenseConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+    """The field name for the summation"""
+    values: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [LicenseEdge]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input AttachedPolicySort {
+  """Direction to sort the connection"""
+  direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: AttachedPolicySortableField
+}
+
+input S3BucketCreationInput {
+  """An XML document representing the Access Control List for the bucket."""
+  ACL: String
+  """Enable server-side encryption for this bucket."""
+  encryptionEnabled: Boolean
+  """The region for the bucket creation."""
+  region: String = "us-west-2"
+  """An optional list of those who have all access to this bucket"""
+  fullControlACL: String
+  """An optional list of those with read access to bucket objects"""
+  grantRead: String
+  """An optional list of those with write access to bucket objects."""
+  grantWrite: String
+  """An optional list of those who can write to the ACL"""
+  grantWriteACP: String
+  """The tenant ID is used to namespace a bucket during creation"""
+  tenantID: ID!
+  """The bucket to be created"""
+  name: String!
+  """Whether or not object lock is enabled"""
+  objectLock: Boolean
+  """An optional list of those who can view the ACL"""
+  grantReadACP: String
+}
+
 """Network protocol"""
 enum NetworkProtocol {
   udp
@@ -6159,10 +5802,10 @@ type StatefulSetEdge {
 }
 
 input ObjectLockBucketConfiguration {
-  """The name of the bucket to create."""
-  bucketName: String!
   """The relay ID of the tenant to create a new bucket for."""
   tenantID: ID!
+  """The name of the bucket to create."""
+  bucketName: String!
 }
 
 """Annotation of a resource"""
@@ -6212,60 +5855,31 @@ type TrustedAnchorsEdge {
 
 """Changes the sort order of nodes returned in a connection"""
 input KubernetesResourceSort {
-  """Direction to sort the connection"""
-  direction: SortDirection
   """Name of field on which to sort the connection"""
   field: KubernetesResourceSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
 input BucketCreationInput {
+  """The tenant ID is used to namespace a bucket during creation"""
+  tenantID: ID!
+  """Namespaced name of the objectStore in which this bucket resides"""
+  objectStore: NamespacedNameInput!
   """The bucket to be created"""
   name: String!
   """The bucket policy to be applied"""
   policy: String
   """Versioning status of bucket"""
   enableVersioning: Boolean = false
-  """The tenant ID is used to namespace a bucket during creation"""
-  tenantID: ID!
-  """Namespaced name of the objectStore in which this bucket resides"""
-  objectStore: NamespacedNameInput!
+  """the bucket size at which the users will be notified"""
+  notificationSize: Int
   """the bucket size at which new object creations will be blocked"""
   blockSize: Int
   """Whether or not object lock is enabled"""
   objectLock: Boolean
   """Encryption status of bucket"""
   encryptionEnabled: Boolean = false
-  """the bucket size at which the users will be notified"""
-  notificationSize: Int
-}
-
-"""Fields sortable for namespace field"""
-enum NamespaceSortableField {
-  name
-}
-
-"""A Kubernetes namespace used to logically group resources"""
-type Namespace implements Node {
-  """The ID of an object"""
-  id: ID!
-  name: String
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input InlinePolicySort {
-  """Name of field on which to sort the connection"""
-  field: InlinePolicySortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-input DeleteAccountAccessKeyInput {
-  """A unique identifier for this account"""
-  accountID: String!
-  """Deprecated in favor of new accountID field"""
-  AccountId: String
-  """A unique identifier for this account access key"""
-  accessKeyId: String!
 }
 
 """A connection to a list of items."""
@@ -6308,29 +5922,33 @@ input NamespaceSort {
   field: NamespaceSortableField
 }
 
-input CreateWebhookConfigurationType {
-  """Webhook backup limit"""
-  backupLimit: String
-  """Optional comment to attach to the webhook"""
-  comment: String
-  """Endpoint for the webhook to send to"""
-  endpoint: String!
-  """AccountID to use for the DCM mutation"""
-  accountID: String!
-  """Webhook name"""
-  name: String!
-  """Auth token for the webhook"""
-  authToken: String!
+"""Fields sortable for namespace field"""
+enum NamespaceSortableField {
+  name
 }
 
-"""An object store alert policy condition input instance"""
-input AlertPolicyConditionInput {
-  """Type of value for the threshold value of the alert policy"""
-  thresholdUnits: String
-  """Threshold value limit of the alert policy"""
-  thresholdValue: String
-  """Severity type of the alert policy. Warning, Critical, etc"""
-  severityType: String
+"""A Kubernetes namespace used to logically group resources"""
+type Namespace implements Node {
+  """The ID of an object"""
+  id: ID!
+  name: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input InlinePolicySort {
+  """Direction to sort the connection"""
+  direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: InlinePolicySortableField
+}
+
+input DeleteAccountAccessKeyInput {
+  """A unique identifier for this account"""
+  accountID: String!
+  """Deprecated in favor of new accountID field"""
+  AccountId: String
+  """A unique identifier for this account access key"""
+  accessKeyId: String!
 }
 
 """Changes the sort order of nodes returned in a connection"""
@@ -6357,6 +5975,31 @@ type Feature {
   name: String
   """Usage of this feature"""
   usage: Int
+}
+
+input CreateWebhookConfigurationType {
+  """Webhook backup limit"""
+  backupLimit: String
+  """Optional comment to attach to the webhook"""
+  comment: String
+  """Endpoint for the webhook to send to"""
+  endpoint: String!
+  """AccountID to use for the DCM mutation"""
+  accountID: String!
+  """Webhook name"""
+  name: String!
+  """Auth token for the webhook"""
+  authToken: String!
+}
+
+"""An object store alert policy condition input instance"""
+input AlertPolicyConditionInput {
+  """Type of value for the threshold value of the alert policy"""
+  thresholdUnits: String
+  """Threshold value limit of the alert policy"""
+  thresholdValue: String
+  """Severity type of the alert policy. Warning, Critical, etc"""
+  severityType: String
 }
 
 """A single key value pair."""
@@ -6389,39 +6032,6 @@ type PermissionBoundary {
   updateDate: DateTime
 }
 
-input CertificateInput {
-  """The intermediate certificate authority (optional)"""
-  intermediateCA: String
-  """The password attached to the certificate (optional)"""
-  certificatePassword: String
-  """
-  The private key that corresponds with the public key in the certificate
-  """
-  privateKey: String
-  """Name and namespace of the application the certificate applies to"""
-  application: NamespacedNameInput
-  """The name of certificate to upload"""
-  certificateName: String
-  """The certificate to upload"""
-  certificate: String
-  """The root certificate authority (optional)"""
-  rootCA: String
-}
-
-input DeleteLicenseInput {
-  """the name of the license resource to delete"""
-  name: String
-}
-
-input AttachIAMRolePolicyInput {
-  """The name of the role to attach the policy"""
-  roleName: String!
-  """The name of the policy to attach to the role"""
-  policyArn: String!
-  """The account id of the role"""
-  accountID: String!
-}
-
 type SizingResult {
   """The ID of an object"""
   id: ID!
@@ -6451,6 +6061,39 @@ input FilterRule {
   name: String
   """The value of the filter key to watch for"""
   value: String
+}
+
+input CertificateInput {
+  """The password attached to the certificate (optional)"""
+  certificatePassword: String
+  """
+  The private key that corresponds with the public key in the certificate
+  """
+  privateKey: String
+  """Name and namespace of the application the certificate applies to"""
+  application: NamespacedNameInput
+  """The name of certificate to upload"""
+  certificateName: String
+  """The certificate to upload"""
+  certificate: String
+  """The root certificate authority (optional)"""
+  rootCA: String
+  """The intermediate certificate authority (optional)"""
+  intermediateCA: String
+}
+
+input DeleteLicenseInput {
+  """the name of the license resource to delete"""
+  name: String
+}
+
+input AttachIAMRolePolicyInput {
+  """The account id of the role"""
+  accountID: String!
+  """The name of the role to attach the policy"""
+  roleName: String!
+  """The name of the policy to attach to the role"""
+  policyArn: String!
 }
 
 """Settings for the SupportAssist configuration"""
@@ -6491,14 +6134,6 @@ input ToggleIAMAccountTSOInput {
   accountTSODisabled: Boolean!
 }
 
-"""An edge in a connection"""
-type AccessKeyEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: AccessKey
-}
-
 """The replication configuration rules for the replication configuration"""
 type ReplicationRuleType {
   destination: ReplicationDestinationType
@@ -6510,12 +6145,6 @@ type ReplicationRuleType {
 
 """A single workload contained within a given ObjectStore"""
 input WorkloadInput {
-  """Annual expected growth rate in percent for the store"""
-  growthRate: Int
-  """Object size for this workload"""
-  objectSize: QuantityInput
-  """Show how much capacity is needed"""
-  primaryCapacity: QuantityInput
   """Read write ratio"""
   readWriteRatio: Int
   """How much concurrent transactions"""
@@ -6524,6 +6153,12 @@ input WorkloadInput {
   useCase: UseCaseType
   """If data will be encrypted"""
   encryption: Boolean
+  """Annual expected growth rate in percent for the store"""
+  growthRate: Int
+  """Object size for this workload"""
+  objectSize: QuantityInput
+  """Show how much capacity is needed"""
+  primaryCapacity: QuantityInput
 }
 
 """Settings for SupportAssist"""
@@ -6561,22 +6196,11 @@ type Spec {
 }
 
 """An edge in a connection"""
-type LicenseV2Edge {
+type AccessKeyEdge {
   """ cursor for use in pagination"""
   cursor: String!
   """The item at the end of the edge"""
-  node: LicenseV2
-}
-
-input BucketUpdateInput {
-  """Versioning status of bucket"""
-  enableVersioning: Boolean
-  """the bucket size at which new object creations will be blocked"""
-  blockSize: Int
-  """the bucket size at which the users will be notified"""
-  notificationSize: Int
-  """The bucket policy to be applied"""
-  policy: String
+  node: AccessKey
 }
 
 """An edge in a connection"""
@@ -6617,6 +6241,25 @@ enum RemoteInstanceSortableField {
   trustStatus
   type
   connectivityStatus
+}
+
+"""An edge in a connection"""
+type LicenseV2Edge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: LicenseV2
+}
+
+input BucketUpdateInput {
+  """the bucket size at which new object creations will be blocked"""
+  blockSize: Int
+  """the bucket size at which the users will be notified"""
+  notificationSize: Int
+  """The bucket policy to be applied"""
+  policy: String
+  """Versioning status of bucket"""
+  enableVersioning: Boolean
 }
 
 """IAM user used to manage object stores"""
@@ -6660,6 +6303,29 @@ type AttachedPolicyEntityConnection {
   edges: [AttachedPolicyEntityEdge]
   """Information to aid in pagination."""
   pageInfo: PageInfo!
+}
+
+"""Fields sortable for kubernetes resources"""
+enum KubernetesResourceSortableField {
+  size
+  readiness
+  sizeResource
+  kind
+  name
+  namespace
+  creationTimestamp
+}
+
+"""The notification configuration set on the bucket"""
+type NotificationConfigurationType {
+  topicConfigurations: [TopicConfigurationType]
+}
+
+type ClusterNodesInput {
+  """The allocatable resources within the cluster node"""
+  allocatable: SizerClusterResourceType
+  """The cluster node name"""
+  name: String
 }
 
 """Changes the sort order of nodes returned in a connection"""
@@ -6706,27 +6372,36 @@ input IAMCreateGroupInput {
   accountID: String!
 }
 
-"""Fields sortable for kubernetes resources"""
-enum KubernetesResourceSortableField {
-  size
-  readiness
-  sizeResource
-  kind
-  name
-  namespace
-  creationTimestamp
+"""Changes the sort order of nodes returned in a connection"""
+input EventSort {
+  """Name of field on which to sort the connection"""
+  field: EventSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
 }
 
-"""The notification configuration set on the bucket"""
-type NotificationConfigurationType {
-  topicConfigurations: [TopicConfigurationType]
-}
-
-type ClusterNodesInput {
-  """The allocatable resources within the cluster node"""
-  allocatable: SizerClusterResourceType
-  """The cluster node name"""
+"""
+A VMware StoragePool used to evaluate storage capacity resources by node and storage class
+"""
+input StoragePoolInput {
+  """The amount of free space remaining in the pool in MiB"""
+  freeSpaceInMiB: Int
+  """List of storage classes compatible with this storage pool"""
+  compatibleStorageClasses: [String]
+  """Type of storage pool"""
+  poolType: String
+  """Unique name of the storage pool"""
   name: String
+  """Names of all nodes in the cluster that can access this storage pool"""
+  accessibleNodes: [String]
+}
+
+"""An edge in a connection"""
+type GroupEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: Group
 }
 
 """Fields sortable for policy field"""
@@ -6769,52 +6444,6 @@ type PolicyVersionsConnection {
   edges: [PolicyVersionsEdge]
   """Information to aid in pagination."""
   pageInfo: PageInfo!
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input EventSort {
-  """Name of field on which to sort the connection"""
-  field: EventSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""
-A VMware StoragePool used to evaluate storage capacity resources by node and storage class
-"""
-input StoragePoolInput {
-  """List of storage classes compatible with this storage pool"""
-  compatibleStorageClasses: [String]
-  """Type of storage pool"""
-  poolType: String
-  """Unique name of the storage pool"""
-  name: String
-  """Names of all nodes in the cluster that can access this storage pool"""
-  accessibleNodes: [String]
-  """The amount of free space remaining in the pool in MiB"""
-  freeSpaceInMiB: Int
-}
-
-"""An edge in a connection"""
-type GroupEdge {
-  """ cursor for use in pagination"""
-  cursor: String!
-  """The item at the end of the edge"""
-  node: Group
-}
-
-"""Changes the sort order of nodes returned in a connection"""
-input UserSort {
-  """Name of field on which to sort the connection"""
-  field: UserSortableField
-  """Direction to sort the connection"""
-  direction: SortDirection
-}
-
-"""Specifies if replicates delete markers"""
-input ReplicationStatusInputType {
-  """Indicates whether to replicate delete markers"""
-  status: String!
 }
 
 """A connection to a list of items."""
@@ -6866,6 +6495,20 @@ type Container {
   memoryRequestInKB: Int
   """Container Name"""
   name: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input UserSort {
+  """Name of field on which to sort the connection"""
+  field: UserSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""Specifies if replicates delete markers"""
+input ReplicationStatusInputType {
+  """Indicates whether to replicate delete markers"""
+  status: String!
 }
 
 """A connection to a list of items."""
@@ -6946,18 +6589,6 @@ type UserConnection {
   pageInfo: PageInfo!
 }
 
-"""Field matcher to select events based for event rule"""
-type MatchOn {
-  """Field value for rule matcher"""
-  field: String
-  """Label value for rule matcher"""
-  label: String
-  """The operator that should be used in the match"""
-  operator: String
-  """Value that should be matched on"""
-  value: String
-}
-
 """A connection to a list of items."""
 type NonDeletedFederatedObjectStoreConnection {
   """Count and summarize for each defined grouping"""
@@ -6983,6 +6614,54 @@ type LatencyData {
   avg: Float
   """Latency values"""
   values: [latencyValue]
+}
+
+"""Field matcher to select events based for event rule"""
+type MatchOn {
+  """Field value for rule matcher"""
+  field: String
+  """Label value for rule matcher"""
+  label: String
+  """The operator that should be used in the match"""
+  operator: String
+  """Value that should be matched on"""
+  value: String
+}
+
+"""Fields sortable for role field"""
+enum RoleSortableField {
+  description
+  assumeRolePolicyDocument
+  maxSessionDuration
+  roleName
+  roleID
+  arn
+  createDate
+  path
+  permissionsBoundary
+}
+
+type RootQuery {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+  """Returns the currently authenticated user"""
+  viewer(namespace: String!): Viewer
+}
+
+"""Filter connection based comparison with int or int list argument"""
+input FilterIntegerArgument {
+  value: Int
+  listValue: [Int]
+  field: String
+  operator: Operator
+}
+
+"""An ECS External DNS Endpoint"""
+type ExternalDNSEndpoint {
+  externalDNSEndpoint: String
 }
 
 """reclaimPolicyType defines all available access mode for graphql."""
@@ -7173,64 +6852,6 @@ enum UserSortableField {
   arn
 }
 
-"""Fields sortable for role field"""
-enum RoleSortableField {
-  description
-  assumeRolePolicyDocument
-  maxSessionDuration
-  roleName
-  roleID
-  arn
-  createDate
-  path
-  permissionsBoundary
-}
-
-type RootQuery {
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-  """Returns the currently authenticated user"""
-  viewer(namespace: String!): Viewer
-}
-
-"""Filter connection based comparison with int or int list argument"""
-input FilterIntegerArgument {
-  operator: Operator
-  value: Int
-  listValue: [Int]
-  field: String
-}
-
-"""An ECS External DNS Endpoint"""
-type ExternalDNSEndpoint {
-  externalDNSEndpoint: String
-}
-
-input GetWebhookConfigurationType {
-  """AccountID to use for the DCM mutation"""
-  accountID: String!
-  """Webhook urn (must be full URN not simple name)"""
-  urn: String!
-}
-
-input InitiateTrustInput {
-  """The Objectscale ID"""
-  objectScaleID: String
-}
-
-"""
-Kubernetes workload resource settings to request or limit resources used on a node
-"""
-input WorkloadConfigResourceType {
-  """Resource request for resource"""
-  limits: [StringQuantityMapInputType]
-  """Resource request for resource"""
-  requests: [StringQuantityMapInputType]
-}
-
 """Fields sortable for objectstore field"""
 enum ObjectStoreSortableField {
   name
@@ -7277,33 +6898,34 @@ input LicenseSortV2 {
   direction: SortDirection
 }
 
-"""Data protection scheme for object-store to protect user data"""
-enum ErasureCodingSchemeType {
-  """Ten-Two erasure-coding scheme"""
-  TenTwo
-  """No erasure-coding scheme"""
-  NoErasureCodingScheme
-  """Twelve-Four erasure-coding scheme"""
-  TwelveFour
-  """Six-Three erasure-coding scheme"""
-  SixThree
-  """Three-Three erasure-coding scheme"""
-  ThreeThree
+input GetWebhookConfigurationType {
+  """Webhook urn (must be full URN not simple name)"""
+  urn: String!
+  """AccountID to use for the DCM mutation"""
+  accountID: String!
 }
 
-input IAMSAMLProviderUntagInput {
-  """The ARN of the SAML provider"""
-  arn: String
-  """A list of key-value tags associated with the SAML provider"""
-  tags: [TagInput]
+input InitiateTrustInput {
+  """The Objectscale ID"""
+  objectScaleID: String
+}
+
+"""
+Kubernetes workload resource settings to request or limit resources used on a node
+"""
+input WorkloadConfigResourceType {
+  """Resource request for resource"""
+  requests: [StringQuantityMapInputType]
+  """Resource request for resource"""
+  limits: [StringQuantityMapInputType]
 }
 
 """Filter connection based comparison with string or string list argument"""
 input FilterStringArgument {
-  field: String
   operator: Operator
   value: String
   listValue: [String]
+  field: String
 }
 
 """S3 credential secret key"""
@@ -7338,16 +6960,25 @@ type LogReceiverConfig {
   workloadConfig: WorkloadConfig
 }
 
-"""Network protocol used for the log receiver"""
-enum NetworkProtocolInputType {
-  """UDP Protocol"""
-  udp
-  """HTTP Protocol"""
-  http
-  """HTTPS Protocol"""
-  https
-  """TCP Protocol"""
-  tcp
+"""Data protection scheme for object-store to protect user data"""
+enum ErasureCodingSchemeType {
+  """Ten-Two erasure-coding scheme"""
+  TenTwo
+  """No erasure-coding scheme"""
+  NoErasureCodingScheme
+  """Twelve-Four erasure-coding scheme"""
+  TwelveFour
+  """Six-Three erasure-coding scheme"""
+  SixThree
+  """Three-Three erasure-coding scheme"""
+  ThreeThree
+}
+
+input IAMSAMLProviderUntagInput {
+  """The ARN of the SAML provider"""
+  arn: String
+  """A list of key-value tags associated with the SAML provider"""
+  tags: [TagInput]
 }
 
 """An edge in a connection"""
@@ -7366,12 +6997,24 @@ input StringQuantityMapInputType {
   key: String
 }
 
+"""Network protocol used for the log receiver"""
+enum NetworkProtocolInputType {
+  """UDP Protocol"""
+  udp
+  """HTTP Protocol"""
+  http
+  """HTTPS Protocol"""
+  https
+  """TCP Protocol"""
+  tcp
+}
+
 """Filter connection based comparison with string or string list argument"""
 input FilterBooleanArgument {
+  field: String
   operator: Operator
   value: Boolean
   listValue: [Boolean]
-  field: String
 }
 
 input ManagerConfigInput {
@@ -7384,13 +7027,6 @@ input DefaultEventRuleUpdateInput {
   eventRuleIdentifier: Int!
   """The eventRule to be created"""
   eventRule: EventRuleInputType!
-}
-
-input ApproveCertificateRequestInput {
-  """Name and namespace of the application the certificate applies to"""
-  applicationName: NamespacedNameInput
-  """The certificate to approve"""
-  certificateRequestName: String
 }
 
 """Detailed results of a given healthcheck container"""
@@ -7454,32 +7090,19 @@ type Pod implements Node & KubernetesResource {
   status: String
 }
 
+input ApproveCertificateRequestInput {
+  """Name and namespace of the application the certificate applies to"""
+  applicationName: NamespacedNameInput
+  """The certificate to approve"""
+  certificateRequestName: String
+}
+
 """An edge in a connection"""
 type StorageClassEdge {
   """ cursor for use in pagination"""
   cursor: String!
   """The item at the end of the edge"""
   node: StorageClass
-}
-
-"""SRS Gateway Input Type"""
-input SRSGatewayInputType {
-  """Remote Access external IP"""
-  remoteAccessExternalIP: String
-  """Remote Access username"""
-  remoteAccessUsername: String
-  """Remote Access user password"""
-  remoteAccessPassword: String
-  """Namespaced name in which this SRS Gateway resides"""
-  objectStore: NamespacedNameInput
-  """SRS Gateway username"""
-  srsGatewayUsername: String
-  """SRS Gateway user password"""
-  srsGatewayPassword: String
-  """SRS Gateway host"""
-  srsGatewayHost: String
-  """SRS Gateway port"""
-  srsGatewayPort: Int
 }
 
 """A legal hold configuration from a bucket item.."""
@@ -7508,18 +7131,6 @@ type AccountAccessKeyConnection {
 
 """Network connection details for resource"""
 input NetworkConnectionInput {
-  """
-  Configure expiry notification to be sent this number of days before the certificate expires
-  """
-  expiryNotificationTime: Int
-  """List of external IP addresses applied to this connection"""
-  externalIPAddresses: [String]
-  """Certificate signing request for this connection"""
-  certificateSigningRequest: CertificateSigningRequestInput
-  """Indicates if this connection should use the manager certificate"""
-  inheritFromManager: Boolean
-  """The node port address of the connection"""
-  nodePort: Int
   """List of hostnames applied to this connection"""
   externalHostnames: [String]
   """Certificate files for this connection"""
@@ -7530,22 +7141,38 @@ input NetworkConnectionInput {
   certificateType: CertificateSigningType!
   """The load balancer IP address of the connection"""
   loadBalancerIP: String
+  """The node port address of the connection"""
+  nodePort: Int
+  """List of external IP addresses applied to this connection"""
+  externalIPAddresses: [String]
+  """Certificate signing request for this connection"""
+  certificateSigningRequest: CertificateSigningRequestInput
+  """Indicates if this connection should use the manager certificate"""
+  inheritFromManager: Boolean
+  """
+  Configure expiry notification to be sent this number of days before the certificate expires
+  """
+  expiryNotificationTime: Int
 }
 
-"""Configuration for DECKS application"""
-type DECKSConfig {
-  """DECKS workload config"""
-  decksWorkloadConfig: WorkloadConfig
-  """Indicates if DECKS is enabled for this install"""
-  enabled: Boolean
-  """Event rules applied to events emitted from DECKS application"""
-  eventRules: [EventRule]
-  """Namespace and name of kubernetes application resource"""
-  namespacedName: NamespacedName
-  """Test SRS Gateway"""
-  testSRSGateway: SRSGateway
-  """DECKS version"""
-  version: String
+"""SRS Gateway Input Type"""
+input SRSGatewayInputType {
+  """SRS Gateway host"""
+  srsGatewayHost: String
+  """SRS Gateway port"""
+  srsGatewayPort: Int
+  """Remote Access external IP"""
+  remoteAccessExternalIP: String
+  """Remote Access username"""
+  remoteAccessUsername: String
+  """Remote Access user password"""
+  remoteAccessPassword: String
+  """Namespaced name in which this SRS Gateway resides"""
+  objectStore: NamespacedNameInput
+  """SRS Gateway username"""
+  srsGatewayUsername: String
+  """SRS Gateway user password"""
+  srsGatewayPassword: String
 }
 
 """Changes the sort order of nodes returned in a connection"""
@@ -7582,33 +7209,20 @@ type cloudIQ {
   usageIntelligenceFrequency: Int
 }
 
-"""A pod affinity rule used in affinity or anti-affinity definitions"""
-input AffinityTermInputType {
-  """
-  Node label used to identify specific groups of nodes for affinity or anti-affinity
-  """
-  topologyKey: String
-  """Selector used to affinitize or anti-affinitize this pod to other pods"""
-  labelSelector: LabelSelectorTypeInputType
-}
-
-"""Add IAM user to specific IAM group"""
-input AddUserToGroupInput {
-  """The friendly name identifying the user"""
-  userName: String!
-  """The name of the group to add"""
-  groupName: String!
-  """The account ID of the user"""
-  accountID: String!
-}
-
-input EventRuleUpdateInput {
-  """Name of the eventrule and namespace it resides in"""
-  application: NamespacedNameInput!
-  """Name of the event rule to be updated"""
-  eventRuleIdentifier: Int!
-  """The eventRule to be created"""
-  eventRule: EventRuleInputType!
+"""Configuration for DECKS application"""
+type DECKSConfig {
+  """DECKS workload config"""
+  decksWorkloadConfig: WorkloadConfig
+  """Indicates if DECKS is enabled for this install"""
+  enabled: Boolean
+  """Event rules applied to events emitted from DECKS application"""
+  eventRules: [EventRule]
+  """Namespace and name of kubernetes application resource"""
+  namespacedName: NamespacedName
+  """Test SRS Gateway"""
+  testSRSGateway: SRSGateway
+  """DECKS version"""
+  version: String
 }
 
 """Root field of the schema"""
@@ -7840,23 +7454,33 @@ type StringMap {
   value: String
 }
 
-input AttachIAMUserPolicyInput {
-  """The name of the user to attach the policy"""
-  userName: String!
-  """The name of the policy to attach to the user"""
-  policyArn: String!
-  """The account id of the user"""
-  accountID: String!
+"""A pod affinity rule used in affinity or anti-affinity definitions"""
+input AffinityTermInputType {
+  """Selector used to affinitize or anti-affinitize this pod to other pods"""
+  labelSelector: LabelSelectorTypeInputType
+  """
+  Node label used to identify specific groups of nodes for affinity or anti-affinity
+  """
+  topologyKey: String
 }
 
-input CreateServiceProviderInput {
-  create_time: String
-  java_keystore: String!
-  key_alias: String!
-  key_password: String!
-  dns: String!
-  unique_id: String
-  uuid: String
+"""Add IAM user to specific IAM group"""
+input AddUserToGroupInput {
+  """The account ID of the user"""
+  accountID: String!
+  """The friendly name identifying the user"""
+  userName: String!
+  """The name of the group to add"""
+  groupName: String!
+}
+
+input EventRuleUpdateInput {
+  """Name of the eventrule and namespace it resides in"""
+  application: NamespacedNameInput!
+  """Name of the event rule to be updated"""
+  eventRuleIdentifier: Int!
+  """The eventRule to be created"""
+  eventRule: EventRuleInputType!
 }
 
 """A reference to a Kubernetes object type"""
@@ -7882,4 +7506,380 @@ type TrustedAnchors implements Node {
   id: ID!
   key: String
   value: String
+}
+
+input AttachIAMUserPolicyInput {
+  """The name of the policy to attach to the user"""
+  policyArn: String!
+  """The account id of the user"""
+  accountID: String!
+  """The name of the user to attach the policy"""
+  userName: String!
+}
+
+input CreateServiceProviderInput {
+  create_time: String
+  java_keystore: String!
+  key_alias: String!
+  key_password: String!
+  dns: String!
+  unique_id: String
+  uuid: String
+}
+
+"""Fields sortable for fed ObjectStores"""
+enum FedObjectStoreSortableField {
+  objectScaleId
+  creationTimestamp
+  initialized
+  uid
+  objectStoreId
+  k8sNamespace
+  objectStoreName
+  apiVersion
+  version
+  status
+  deleted
+}
+
+"""Fields sortable for account field"""
+enum AccountSortableField {
+  objectscale
+  createDate
+  encryptionEnabled
+  complianceEnabled
+  alias
+  description
+  accountID
+}
+
+"""A connection to a list of items."""
+type RemoteInstanceConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+    """The field name for the summation"""
+    values: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [RemoteInstanceEdge]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""An edge in a connection"""
+type AccountEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: Account
+}
+
+"""Field matcher to select events based for event rule"""
+input MatchOnInput {
+  """Field value for rule matcher"""
+  field: String
+  """Label value for rule matcher"""
+  label: String
+  """Value that should be matched on"""
+  value: String
+  """The operator that should be used in the match"""
+  operator: String
+}
+
+"""An edge in a connection"""
+type NotifierEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: Notifier
+}
+
+"""Type of Kubernetes service"""
+enum ServiceServiceType {
+  LoadBalancer
+  ClusterIP
+  NodePort
+}
+
+"""Entity Types which can attached to a Policy"""
+enum PolicyEntityType {
+  """Policy is Associated to a Role"""
+  Role
+  """Policy is Associated to a Group"""
+  Group
+  """Policy is Associated to a User"""
+  User
+}
+
+input ObjectStoreBulkActionInput {
+  """Namespaces and names of object-stores upon which to perform operation"""
+  namespacedNames: [NamespacedNameInput]
+}
+
+"""An edge in a connection"""
+type ClusterNodeEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: ClusterNode
+}
+
+"""A service provider info type"""
+type ServiceProvider {
+  create_time: String
+  dns: String
+  java_keystore: String
+  key_alias: String
+  key_password: String
+  unique_id: String
+  uuid: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input ObjectStoreTemplateSort {
+  """Name of field on which to sort the connection"""
+  field: ObjectStoreTemplateSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+"""The input required to delete a Tenant's quota."""
+input DeleteTenantQuotaInput {
+  objectStore: NamespacedNameInput
+  accountID: String
+}
+
+"""A kubernetes resource"""
+type KubernetesResourceNodeType implements Node {
+  creationTimestamp: String
+  id: ID!
+  kind: String
+  name: String
+  namespace: String
+  """
+  Service readiness as a permille (a percentage with a base of 1000 instead of 100)
+  """
+  readiness: Int
+  size: Quantity
+  sizeResource: String
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input PersistentVolumeClaimSort {
+  """Name of field on which to sort the connection"""
+  field: PersistentVolumeClaimSortableField
+  """Direction to sort the connection"""
+  direction: SortDirection
+}
+
+enum IssueClearTypes {
+  Manual
+  Auto
+}
+
+"""Changes the sort order of nodes returned in a connection"""
+input LicenseSort {
+  """Direction to sort the connection"""
+  direction: SortDirection
+  """Name of field on which to sort the connection"""
+  field: LicenseSortableField
+}
+
+"""An edge in a connection"""
+type AttachedPolicyEntityEdge {
+  """ cursor for use in pagination"""
+  cursor: String!
+  """The item at the end of the edge"""
+  node: AttachedPolicyEntity
+}
+
+"""Storage topology details for resource"""
+input StorageTopologyInput {
+  """The topology spread and fault domain key"""
+  faultDomainKey: String
+  """The disallowed fault domains for resource scheduling"""
+  excludedFaultDomains: [String]
+  """
+  List of node hostnames (kubernetes.io/hostname label) to be excluded from resource scheduling
+  """
+  excludedNodes: [String]
+}
+
+"""A connection to a list of items."""
+type PersistentVolumeConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The field name for the summation"""
+    values: [String]
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [PersistentVolumeEdge]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""A connection to a list of items."""
+type KubernetesResourcesConnection {
+  """Count and summarize for each defined grouping"""
+  aggregations(
+    """The aggregation function to use. Currently support sum or count"""
+    function: ConnectionAggregationFunction
+    """The field name to group the value"""
+    groups: [String]
+    """The field name for the summation"""
+    values: [String]
+  ): ConnectionAggregation
+  """Summarized counts for each defined grouping"""
+  counts(groups: [String]): Counts
+  """Information to aid in pagination."""
+  edges: [KubernetesResourcesEdge]
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+}
+
+"""
+The replication configuration filter for the replication configuration rule
+"""
+type ReplicationFilterType {
+  prefix: String
+  tag: [ReplicationTagType]
+}
+
+"""The node selector where resources should be targed for scheduling"""
+type NodeSelectionInputType {
+  """The key of node labels to determine selection"""
+  key: String
+  """The source of node labels to determine selection"""
+  source: String
+  """The value of node labels to determine selection"""
+  value: String
+}
+
+"""FeatureV2"""
+type FeatureV2 {
+  """The date when the license expires"""
+  endDate: String
+  """The date the license can be renewed after expiring"""
+  gracePeriod: String
+  """Name of the licensed feature"""
+  name: String
+  """Product line from the License"""
+  productLine: String
+  """Quantity available for this feature"""
+  quantity: Int
+  """The date from when the license will be valid"""
+  startDate: String
+  """License type of this feature"""
+  type: String
+  """Unit of measurement code for this feature"""
+  uomCode: String
+  """Unit of measurement name for this feature"""
+  uomName: String
+  """Current usage amount used by this feature"""
+  usage: Int
+}
+
+"""Fields sortable for attached policy field"""
+enum AttachedPolicySortableField {
+  policyArn
+  policyName
+}
+
+input DeleteIAMGroupPolicyInput {
+  """The name of the policy document"""
+  policyName: String!
+  """The account where resource created"""
+  accountID: String!
+  """The name of the group to delete"""
+  groupName: String!
+}
+
+"""Hosts signed by a certificate"""
+type CertificateHosts {
+  """DNS names that are signed with this certificate"""
+  dns: [String]
+  """IP addresses that are signed with this certificate"""
+  ip: [String]
+}
+
+"""IAM user used to manage object stores"""
+type User implements Node {
+  """Return a list of Access Keys"""
+  accessKeys(createDate: FilterDateTimeArgument, status: FilterStringArgument, userName: FilterStringArgument, lastUsedDate: FilterDateTimeArgument, sort: AccessKeySort, before: String, last: Int, offset: Int, after: String, first: Int): AccessKeyConnection
+  """Amazon Resource Name of the user"""
+  arn: String
+  """Return a list of Policies attached to a resource"""
+  attachedPolicies(last: Int, policyArn: FilterStringArgument, policyName: FilterStringArgument, offset: Int, sort: AttachedPolicySort, before: String, after: String, first: Int): AttachedPolicyConnection
+  """Date on which this user was created"""
+  createDate: DateTime
+  """Return a list of group for a user"""
+  groups(
+    before: String
+    first: Int
+    """The path to the group"""
+    path: FilterStringArgument
+    """
+    The date and time, in ISO 8601 date-time format, when the group was created
+    """
+    createDate: FilterDateTimeArgument
+    """The stable and unique string identifying the group"""
+    groupID: FilterStringArgument
+    """The friendly name that identifies the group"""
+    groupName: FilterStringArgument
+    offset: Int
+    sort: IAMGroupSort
+    after: String
+    last: Int
+    """The Amazon Resource Name (ARN) specifying the group"""
+    arn: FilterStringArgument
+  ): IAMListGroupForUserConnection
+  """The ID of an object"""
+  id: ID!
+  """Return a list of inline policies"""
+  inlinePolicies(last: Int, policyName: FilterStringArgument, policyDocument: FilterStringArgument, offset: Int, sort: InlinePolicySort, before: String, after: String, first: Int): IAMInlinePolicyConnection
+  """The last time a user performed a login or credential gated AWS action"""
+  passwordLastUsed: String
+  """The path to the user"""
+  path: String
+  """
+  The ARN of the policy used to set the permissions boundary for the user
+  """
+  permissionsBoundary: PermissionBoundary
+  """A list of tags that are associated with the specified user"""
+  tags: [Tag]
+  """The stable and unique string identifying the user"""
+  userID: String
+  """The friendly name identifying the user"""
+  userName: String
+}
+
+input IAMCreateAccountInput {
+  """A longer text description of this account"""
+  description: String
+  """A root user for this account"""
+  accountRootUser: String
+  """Root password used for this account"""
+  accountRootPassword: String
+  """Confirmed root password used for this account"""
+  accountRootConfirmPassword: String
+  """A simple name used for this account"""
+  alias: String!
+  """Deprecated in favor of new alias field"""
+  Alias: String
+  """Boolean value indicates if encryption is enabled for this account"""
+  encryptionEnabled: Boolean
+  """Boolean value indicates if compliance is enabled for this account"""
+  complianceEnabled: Boolean
 }

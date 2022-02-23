@@ -1,19 +1,24 @@
 // import { Resolvers } from '../.mesh'
-const axios = require('axios')
-const {connectionFromArray, connectionArgs} = require('graphql-relay')
+const axios = require("axios");
+const { connectionFromArray } = require("graphql-relay");
 
 const resolvers = {
   Query: {
-    async corona() {
-      console.log("Entering")
-      const result = await axios.get('https://data.covid19india.org/data.json')
-      console.log("hell")
-      console.log('---------------------result------------------',result.data)
-      const data = connectionFromArray(result.data, connectionArgs)
-      console.log('------------------------data----------------------------', data)
-      return data
-    }
-  }
-}
+    Corona: async (_, args) => {
+      const result = await axios.get("https://data.covid19india.org/data.json");
+      const data = connectionFromArray(
+        result.data.cases_time_series,
+        args
+      );
+      return {mainData: data};
+    },
+  },
+  Mediate: {
+    extraData: async () => {
+      const result = await axios.get("https://jsonplaceholder.typicode.com/posts/1");
+      return result.data;
+    },
+  },
+};
 
-module.exports = resolvers
+module.exports = resolvers;

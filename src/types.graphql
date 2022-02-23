@@ -1,15 +1,23 @@
-interface Node {
-  id: ID!
-}
-
-type CoronaData {
-  cases_time_series: CoronaConnection
-}
-
 type CoronaConnection {
   edges: [CoronaEdge]
   pageInfo: PageInfo!
 }
+
+type Post {
+  id: ID
+  title: String
+  body: String
+}
+
+# type Posts {
+#   data: Post
+# }
+
+type Mediate {
+  mainData: CoronaConnection
+  extraData: Post
+}
+
 type Tada {
   dailyconfirmed: String
   dailyrecovered: String
@@ -17,15 +25,8 @@ type Tada {
 
 type CoronaEdge {
   cursor: String!
-  node: Tada  
+  node: Tada
 }
-
-
-# type Tada {
-#   dailyconfirmed: String
-#   dailyrecovered: String
-# }
-
 
 type PageInfo {
   hasNextPage: Boolean!
@@ -34,20 +35,12 @@ type PageInfo {
   endCursor: String
 }
 
-# type CoronaData {
-#   cases_time_series: [Tada]
-# }
-
-
 type Query {
-  corona: CoronaConnection
-  # node(id: ID!): Node
+  Corona(
+    first: Int
+    after: String
+    last: Int
+    before: String
+    id: String
+  ): Mediate
 }
-
-# type Query {
-#   corona: CoronaData
-# }
-
-# type CoronaData {
-#   cases_time_series: [Tada]
-# }
